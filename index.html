@@ -6,273 +6,187 @@
   <meta name="theme-color" content="#08090c"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <title>MICROBOT // SFIT - Big Hero 6</title>
+  <title>MICROBOT // SFIT — Big Hero 6 Swarm Lab</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#08090c;
-      --panel:#12141a;
-      --panel-2:#161922;
-      --line:#1f2330;
-      --line-2:#2a3042;
+      --panel:#11131a;
+      --panel-2:#171a26;
+      --line:#1e2333;
+      --line-2:#2b334c;
       --accent:#00e5ff;
       --accent2:#ff1744;
-      --text:#e8ecff;
-      --muted:#8a90a8;
+      --text:#e9edff;
+      --muted:#8b92ad;
+      --gogo:#ffe600;
+      --wasabi:#29ff7a;
+      --honey:#ff6bd6;
+      --fred:#5a7bff;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
-    *{margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-    html{height:100%; overscroll-behavior:none; background:var(--bg)}
-    body{
-      height:100%; min-height:100dvh; background:var(--bg); color:var(--text);
-      font-family:'Space Grotesk',system-ui,sans-serif; overflow:hidden; 
-      overscroll-behavior:none; position:fixed; inset:0;
-    }
-    /* allow scroll on mobile via wrapper */
-    @media(max-width: 768px){
-      body{ position:relative; overflow:hidden; height:100dvh; }
-    }
-    #canvas{position:fixed;inset:0;z-index:0; touch-action:none; width:100% !important; height:100% !important}
-    
-    /* Loader */
-    #loader{
-      position:fixed;inset:0;z-index:100;display:grid;place-items:center;
-      background:var(--bg);transition: opacity .6s ease, visibility .6s;
-    }
-    #loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
-    .loader-inner{display:flex;flex-direction:column;align-items:center;gap:18px}
-    .loader-ring{width:54px;height:54px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .loader-text{font-family:'JetBrains Mono';font-size:11px;letter-spacing:3px;color:var(--muted)}
+    *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html{height:100%;background:var(--bg);overscroll-behavior:none}
+    body{height:100%;min-height:100dvh;background:var(--bg);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif;overflow:hidden;position:fixed;inset:0;overscroll-behavior:none}
+    @media(max-width:1024px){body{position:relative;height:100dvh}}
+    #canvas{position:fixed;inset:0;z-index:0;touch-action:none;width:100%!important;height:100%!important}
 
-    /* Header */
-    .hud-top{
-      position:fixed;top:0;left:0;right:0;z-index:20;
-      display:flex;align-items:center;justify-content:space-between;
-      padding: calc(12px + var(--safe-top)) 18px 12px 18px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg,rgba(8,9,12,0.96),rgba(8,9,12,0.6));
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      gap:12px;
-    }
+    #loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(600px 400px at 50% 30%, rgba(0,229,255,0.12), transparent), var(--bg);transition:opacity .6s,visibility .6s}
+    #loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-inner{display:flex;flex-direction:column;align-items:center;gap:20px}
+    .loader-ring{width:64px;height:64px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;box-shadow:0 0 24px rgba(0,229,255,0.2)}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loader-text{font-family:'JetBrains Mono';font-size:11px;letter-spacing:4px;color:var(--muted)}
+    .loader-bar{width:140px;height:2px;background:var(--line);border-radius:999px;overflow:hidden}
+    .loader-bar i{display:block;height:100%;width:40%;background:var(--accent);animation:loaderBar 1.2s ease-in-out infinite}
+    @keyframes loaderBar{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
+
+    .hud-top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:calc(10px + var(--safe-top)) 14px 10px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(8,9,12,0.96),rgba(8,9,12,0.65));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);gap:10px}
     .brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
-    .brand-mark{
-      width:40px;height:40px;border-radius:12px;background:var(--bg);
-      border:1px solid var(--line);display:grid;place-items:center;
-      position:relative;overflow:hidden;flex-shrink:0;
-    }
-    .brand-mark::before{
-      content:'';position:absolute;inset:0;
-      background:radial-gradient(80px 80px at 30% 30%, var(--accent), transparent 60%);
-      opacity:.9;
-    }
-    .brand-mark span{position:relative;font-family:'JetBrains Mono';font-weight:700;letter-spacing:-1px;font-size:14px}
+    .brand-mark{width:42px;height:42px;border-radius:13px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;position:relative;overflow:hidden;flex-shrink:0}
+    .brand-mark::before{content:'';position:absolute;inset:0;background:radial-gradient(80px 80px at 30% 30%, var(--accent), transparent 60%);opacity:.9}
+    .brand-mark span{position:relative;font-family:'JetBrains Mono';font-weight:700;font-size:14px}
     .brand-text{min-width:0}
-    .brand-text h1{font-size:13px;letter-spacing:3px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .brand-text p{font-family:'JetBrains Mono';font-size:9px;color:var(--muted);letter-spacing:1.5px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    
-    .hud-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
-    .transmitter-status{
-      display:flex;align-items:center;gap:8px;
-      border:1px solid var(--line);padding:8px 12px;border-radius:999px;
-      background:rgba(18,20,26,0.9);font-family:'JetBrains Mono';font-size:10px;letter-spacing:0.8px;
-      max-width:52vw;
-    }
+    .brand-text h1{font-size:12px;letter-spacing:3px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .brand-text p{font-family:'JetBrains Mono';font-size:8.5px;color:var(--muted);letter-spacing:1.4px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .hud-center{display:flex;align-items:center;gap:8px}
+    .seg-toggle{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:rgba(18,20,26,0.9);gap:2px}
+    .seg-btn{padding:7px 14px;border-radius:999px;border:none;background:transparent;color:var(--muted);font-family:'JetBrains Mono';font-size:10px;letter-spacing:1px;cursor:pointer;transition:.18s}
+    .seg-btn.active{background:var(--text);color:#08090c;font-weight:700}
+    .hud-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+    .transmitter-status{display:flex;align-items:center;gap:8px;border:1px solid var(--line);padding:7px 12px;border-radius:999px;background:rgba(18,20,26,0.9);font-family:'JetBrains Mono';font-size:9px;letter-spacing:.7px;max-width:44vw}
     .transmitter-status span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 1.6s infinite;flex-shrink:0}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45;transform:scale(.85)}}
     .yokai .dot{background:var(--accent2);box-shadow:0 0 12px var(--accent2)}
-    @media(max-width:768px){
-      .transmitter-status{padding:6px 10px;font-size:9px}
-      .brand-text h1{font-size:11px;letter-spacing:2px}
-      .brand-mark{width:36px;height:36px}
-    }
-
-    /* Menu Toggle Mobile */
-    .menu-toggle{
-      display:none;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);
-      background:rgba(18,20,26,0.9);color:var(--text);place-items:center;cursor:pointer;
-    }
+    .menu-toggle{display:none;width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:rgba(18,20,26,0.9);color:var(--text);place-items:center;cursor:pointer}
     .menu-toggle svg{width:18px;height:18px}
-    @media(max-width:1024px){ .menu-toggle{display:grid} }
+    @media(max-width:1180px){.hud-center .seg-toggle{display:none}.menu-toggle{display:grid}}
+    @media(max-width:640px){.transmitter-status{display:none}.brand-text h1{font-size:11px}}
 
-    /* Panels Desktop */
-    .panel-left{
-      position:fixed;left:16px;top:76px;bottom:16px;z-index:15;
-      width:320px;display:flex;flex-direction:column;gap:12px;
-      overflow-y:auto;overscroll-behavior:contain;
-      scrollbar-width:none; padding-bottom:var(--safe-bottom);
-    }
-    .panel-left::-webkit-scrollbar{display:none}
-    .card{
-      background:rgba(18,20,26,0.86);border:1px solid var(--line);border-radius:20px;
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      padding:16px; flex-shrink:0;
-    }
-    .card h2{font-size:10px;letter-spacing:3px;color:var(--muted);font-family:'JetBrains Mono';margin-bottom:14px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
-    .card h2 .collapse{font-size:14px;cursor:pointer;display:none}
-    .modes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .mode-btn{
-      padding:12px 10px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(255,255,255,0.02);color:var(--text);cursor:pointer;
-      font-family:'JetBrains Mono';font-size:10px;letter-spacing:1.2px;text-align:left;
-      transition:.18s;position:relative;overflow:hidden; min-height:64px;
-      touch-action:manipulation;
-    }
+    .panel-left{position:fixed;left:14px;top:70px;bottom:14px;z-index:20;width:360px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+    .panel-left .scroll{overflow-y:auto;overscroll-behavior:contain;display:flex;flex-direction:column;gap:10px;padding-right:2px;padding-bottom:var(--safe-bottom);scrollbar-width:none}
+    .panel-left .scroll::-webkit-scrollbar{display:none}
+    .card{background:rgba(16,18,27,0.88);border:1px solid var(--line);border-radius:20px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:14px;flex-shrink:0}
+    .card h2{font-size:10px;letter-spacing:3px;color:var(--muted);font-family:'JetBrains Mono';margin-bottom:12px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+    .chip-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,0.02);color:var(--muted);font-family:'JetBrains Mono';font-size:9px;letter-spacing:.8px;cursor:pointer;transition:.15s}
+    .chip.active{border-color:var(--accent);color:var(--text);background:rgba(0,229,255,0.12)}
+    .modes{display:grid;grid-template-columns:1fr 1fr;gap:7px;max-height:340px;overflow-y:auto;scrollbar-width:none;padding-right:2px}
+    .modes::-webkit-scrollbar{display:none}
+    .mode-btn{padding:10px 10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,0.02);color:var(--text);cursor:pointer;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.9px;text-align:left;transition:.18s;position:relative;overflow:hidden;min-height:66px;touch-action:manipulation}
     .mode-btn:hover{border-color:var(--line-2);transform:translateY(-1px)}
-    .mode-btn:active{transform:scale(0.97)}
-    .mode-btn.active{border-color:var(--accent);background:linear-gradient(180deg,rgba(0,229,255,0.14),rgba(0,229,255,0.02));box-shadow:0 0 20px rgba(0,229,255,0.18) inset}
-    .mode-btn.yokai-active{border-color:var(--accent2);background:linear-gradient(180deg,rgba(255,23,68,0.18),rgba(255,23,68,0.03));box-shadow:0 0 20px rgba(255,23,68,0.18) inset}
-    .mode-btn b{display:block;font-size:13px;letter-spacing:0.5px;margin-bottom:3px;font-family:'Space Grotesk';font-weight:700}
-    .mode-btn small{color:var(--muted);font-size:9px;display:block;line-height:1.3}
+    .mode-btn:active{transform:scale(0.98)}
+    .mode-btn.active{border-color:var(--accent);background:linear-gradient(180deg,rgba(0,229,255,0.15),rgba(0,229,255,0.03));box-shadow:0 0 18px rgba(0,229,255,0.18) inset}
+    .mode-btn.yokai-active{border-color:var(--accent2);background:linear-gradient(180deg,rgba(255,23,68,0.18),rgba(255,23,68,0.04));box-shadow:0 0 18px rgba(255,23,68,0.18) inset}
+    .mode-btn b{display:flex;align-items:center;gap:6px;font-size:12px;letter-spacing:0.4px;margin-bottom:3px;font-family:'Space Grotesk';font-weight:700}
+    .mode-btn b i{font-style:normal;font-size:14px}
+    .mode-btn small{color:var(--muted);font-size:8.5px;display:block;line-height:1.25}
+    .mode-btn .count{position:absolute;top:8px;right:8px;font-size:8px;color:var(--muted);opacity:.7}
 
-    .sliders{display:flex;flex-direction:column;gap:14px}
-    .slider-row{display:flex;flex-direction:column;gap:6px}
+    .sliders{display:flex;flex-direction:column;gap:12px}
+    .slider-row{display:flex;flex-direction:column;gap:5px}
     .slider-label{display:flex;justify-content:space-between;font-family:'JetBrains Mono';font-size:10px;color:var(--muted);letter-spacing:1px}
-    input[type=range]{-webkit-appearance:none;appearance:none;height:36px;background:transparent;cursor:pointer;touch-action:pan-x}
+    input[type=range]{-webkit-appearance:none;appearance:none;height:36px;background:transparent;cursor:pointer;touch-action:pan-x;width:100%}
     input[type=range]::-webkit-slider-runnable-track{height:4px;background:#1c1f2b;border-radius:999px}
     input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid #08090c;margin-top:-9px;box-shadow:0 0 12px var(--accent)}
-    input[type=range].red::-webkit-slider-thumb{background:var(--accent2);box-shadow:0 0 12px var(--accent2)}
 
-    .telemetry{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);line-height:1.7}
+    .telemetry{font-family:'JetBrains Mono';font-size:10px;color:var(--muted);line-height:1.6}
     .telemetry strong{color:var(--text);font-weight:400}
-    .telemetry .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-    .kv{border:1px dashed #232838;border-radius:12px;padding:8px 10px;background:rgba(255,255,255,0.01);font-size:9px;line-height:1.4}
+    .telemetry .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+    .kv{border:1px dashed #232838;border-radius:12px;padding:7px 9px;background:rgba(255,255,255,0.01);font-size:9px;line-height:1.4}
 
-    .cta-row{display:flex;gap:8px;margin-top:4px}
-    .btn{
-      flex:1;border-radius:999px;border:1px solid var(--line);padding:12px 14px;
-      background:#151821;color:var(--text);font-family:'JetBrains Mono';font-size:10px;letter-spacing:1px;
-      cursor:pointer;transition:.18s; min-height:44px; touch-action:manipulation;
-    }
+    .cta-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+    .btn{flex:1;min-width:84px;border-radius:999px;border:1px solid var(--line);padding:10px 12px;background:#151821;color:var(--text);font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.8px;cursor:pointer;transition:.18s;min-height:42px;touch-action:manipulation}
+    .btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,229,255,0.08)}
     .btn.primary{background:var(--text);color:#08090c;border-color:var(--text);font-weight:700}
-    .btn:hover{transform:translateY(-1px);border-color:var(--line-2)}
     .btn:active{transform:scale(0.97)}
-    .btn.primary:hover{background:white}
 
-    /* Right blueprint */
-    .panel-right{
-      position:fixed;right:16px;top:76px;bottom:16px;z-index:15;
-      width:340px;display:flex;flex-direction:column;gap:12px;pointer-events:none;
-      overflow-y:auto;scrollbar-width:none; padding-bottom:var(--safe-bottom);
-    }
-    .panel-right::-webkit-scrollbar{display:none}
+    .panel-right{position:fixed;right:14px;top:70px;bottom:14px;z-index:15;width:340px;display:flex;flex-direction:column;gap:10px;overflow:hidden;pointer-events:none}
+    .panel-right .scroll{overflow-y:auto;pointer-events:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:10px;padding-bottom:var(--safe-bottom)}
+    .panel-right .scroll::-webkit-scrollbar{display:none}
     .panel-right .card{pointer-events:auto}
-    .blueprint{
-      height:260px;border-radius:16px;overflow:hidden;position:relative;
-      background:radial-gradient(600px 300px at 50% -20%, rgba(0,229,255,0.12), transparent),
-                 linear-gradient(180deg,#0d0f16, #0a0c11);
-      border:1px solid var(--line);display:grid;place-items:center; touch-action:none;
-    }
+    .blueprint{height:240px;border-radius:16px;overflow:hidden;position:relative;background:radial-gradient(600px 300px at 50% -20%, rgba(0,229,255,0.12), transparent), linear-gradient(180deg,#0d0f16, #0a0c11);border:1px solid var(--line);display:grid;place-items:center;touch-action:none}
     #microSingle{width:100%;height:100%;display:block}
-    .specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-    .spec{font-family:'JetBrains Mono';font-size:10px;color:var(--muted)}
-    .spec b{display:block;color:var(--text);font-size:12px;margin-bottom:2px;letter-spacing:0.5px}
+    .specs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+    .spec{font-family:'JetBrains Mono';font-size:9px;color:var(--muted)}
+    .spec b{display:block;color:var(--text);font-size:11px;margin-bottom:2px}
 
-    .hint{
-      position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:12;
-      background:rgba(18,20,26,0.92);border:1px solid var(--line);border-radius:999px;
-      padding:10px 16px;font-family:'JetBrains Mono';font-size:10px;color:var(--muted);
-      backdrop-filter:blur(12px);letter-spacing:0.5px;display:flex;align-items:center;gap:10px;
-      white-space:nowrap; max-width:90vw; overflow:hidden;
-    }
-    .hint kbd{border:1px solid #2a3042;border-bottom-width:2px;background:#0d0f15;padding:3px 7px;border-radius:6px;color:var(--text);font-family:'JetBrains Mono';font-size:9px}
+    .perf-badge{position:fixed;top:70px;right:12px;z-index:18;background:rgba(18,20,26,0.88);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);display:flex;gap:10px;backdrop-filter:blur(12px)}
+    @media(min-width:1181px){.perf-badge{display:none}}
 
-    /* Mobile Bottom Sheet */
-    @media(max-width: 1024px){
-      .panel-right{display:none}
-      .panel-left{
-        left:0;right:0;bottom:0;top:auto;width:auto;
-        max-height:72dvh; margin:0;
-        border-radius:24px 24px 0 0;
-        background:rgba(12,14,19,0.94);
-        border:1px solid var(--line);
-        border-bottom:none;
-        padding:0;
-        transform:translateY(calc(100% - 56px));
-        transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
-        box-shadow:0 -20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
-        overflow:hidden;
-      }
-      .panel-left.open{transform:translateY(0)}
-      .sheet-handle{
-        display:flex;justify-content:center;align-items:center;
-        padding:10px 0 6px;cursor:pointer;flex-shrink:0;touch-action:none;
-      }
-      .sheet-handle::before{
-        content:'';width:36px;height:4px;border-radius:999px;background:#2a3042;display:block;
-      }
-      .sheet-scroll{
-        overflow-y:auto;overscroll-behavior:contain;
-        padding:12px 16px calc(20px + var(--safe-bottom));
-        display:flex;flex-direction:column;gap:12px;
-        -webkit-overflow-scrolling: touch;
-      }
-      .card{border-radius:18px;padding:14px}
-      .card h2 .collapse{display:block;opacity:.6}
-      .modes{grid-template-columns:1fr 1fr 1fr}
-      .mode-btn{min-height:72px;padding:12px 10px}
-      .hint{display:none}
-      .mobile-hint{
-        display:flex !important;
-      }
-    }
-    @media(max-width: 600px){
-      .modes{grid-template-columns:1fr 1fr}
-    }
+    /* Joysticks */
+    .joystick{position:fixed;bottom:0;z-index:22;width:130px;height:130px;display:none;touch-action:none;user-select:none}
+    .joystick.left{left:0;padding:0 0 20px 20px;padding-bottom:calc(20px + var(--safe-bottom))}
+    .joystick.right{right:0;padding:0 20px 20px 0;padding-bottom:calc(20px + var(--safe-bottom))}
+    .joystick-base{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), rgba(0,0,0,0.2)), rgba(18,20,26,0.55);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);position:relative;box-shadow:0 8px 24px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.04)}
+    .joystick-stick{position:absolute;left:50%;top:50%;width:46px;height:46px;border-radius:50%;background:linear-gradient(180deg, #e8ecff, #b8bfd8);border:2px solid rgba(0,0,0,0.2);box-shadow:0 4px 12px rgba(0,0,0,0.45), 0 0 12px rgba(0,229,255,0.25);transform:translate(-50%,-50%);transition:transform 0.08s linear;touch-action:none}
+    .joystick.active .joystick-base{border-color:var(--accent);box-shadow:0 8px 24px rgba(0,0,0,0.5), 0 0 18px rgba(0,229,255,0.22)}
+    .joystick-label{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono';font-size:8px;letter-spacing:2px;color:var(--muted);white-space:nowrap}
+    @media(max-width:1024px){.joystick{display:block}}
+    @media(min-width:1025px){.joystick{display:none!important}}
 
-    .mobile-hint{
-      position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:12;
-      background:rgba(18,20,26,0.9);border:1px solid var(--line);border-radius:999px;
-      padding:8px 14px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);
-      display:none;align-items:center;gap:8px;backdrop-filter:blur(12px);
-      pointer-events:none; transition:.3s; max-width:86vw; text-align:center;
-    }
-    .mobile-hint.show{opacity:1;transform:translateX(-50%) translateY(0)}
-    .mobile-hint.hide{opacity:0;transform:translateX(-50%) translateY(10px)}
+    /* Floating zoom & height controls */
+    .float-controls{position:fixed;right:12px;bottom:140px;z-index:23;display:flex;flex-direction:column;gap:8px}
+    .float-btn{width:46px;height:46px;border-radius:14px;border:1px solid var(--line);background:rgba(18,20,26,0.9);color:var(--text);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(12px);font-family:'JetBrains Mono';font-size:18px;touch-action:manipulation;transition:.15s}
+    .float-btn:active{transform:scale(0.92);border-color:var(--accent)}
+    .float-btn.small{width:46px;height:36px;font-size:13px}
+    @media(max-width:1024px){.float-controls{display:flex}} 
+    @media(min-width:1025px){.float-controls{display:none}}
 
-    /* Desktop hide mobile only */
+    .hint{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:12;background:rgba(18,20,26,0.92);border:1px solid var(--line);border-radius:999px;padding:9px 14px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);backdrop-filter:blur(12px);letter-spacing:.4px;display:flex;align-items:center;gap:8px;white-space:nowrap;max-width:92vw;overflow:hidden}
+    .hint kbd{border:1px solid #2a3042;border-bottom-width:2px;background:#0d0f15;padding:2px 6px;border-radius:6px;color:var(--text);font-family:'JetBrains Mono';font-size:9px}
+    .mobile-hint{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);z-index:14;background:rgba(18,20,26,0.92);border:1px solid var(--line);border-radius:999px;padding:8px 12px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);display:none;align-items:center;gap:8px;backdrop-filter:blur(12px);pointer-events:none;transition:.3s;max-width:86vw;text-align:center}
+    @media(max-width:1024px){.hint{display:none}}
+
+    /* Bottom sheet mobile */
     .sheet-handle{display:none}
-    @media(max-width:1024px){ .sheet-handle{display:flex}}
-
-    /* Performance badge mobile */
-    .perf-badge{
-      position:fixed;top:68px;right:12px;z-index:16;
-      background:rgba(18,20,26,0.88);border:1px solid var(--line);border-radius:999px;
-      padding:6px 10px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);
-      display:flex;gap:10px;backdrop-filter:blur(12px)
+    @media(max-width:1180px){
+      .panel-left{left:0;right:0;bottom:0;top:auto;width:auto;max-height:78dvh;margin:0;border-radius:26px 26px 0 0;background:rgba(11,13,19,0.96);border:1px solid var(--line);border-bottom:none;padding:0;transform:translateY(calc(100% - 58px));transition:transform .45s cubic-bezier(0.22,1,0.36,1);box-shadow:0 -20px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.04);overflow:hidden}
+      .panel-left.open{transform:translateY(0)}
+      .panel-left .scroll{padding:0 12px calc(18px + var(--safe-bottom));max-height:78dvh}
+      .sheet-handle{display:flex;justify-content:center;align-items:center;padding:12px 0 8px;cursor:pointer;flex-shrink:0;touch-action:none}
+      .sheet-handle::before{content:'';width:38px;height:4px;border-radius:999px;background:#2a3042;display:block}
+      .panel-right{display:none}
+      .modes{grid-template-columns:1fr 1fr 1fr;max-height:none}
+      .card{border-radius:18px}
     }
-    @media(min-width:1025px){ .perf-badge{display:none}}
+    @media(max-width:640px){.modes{grid-template-columns:1fr 1fr}}
 
-    /* Touch joystick area */
-    #touchArea{
-      position:fixed;inset:0;z-index:5;display:none;touch-action:none;
-    }
-    @media(max-width:1024px){ #touchArea{display:block} }
+    /* Progress build bar */
+    .build-progress{height:4px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:10px}
+    .build-progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#7afcff);transition:width .2s}
 
-    /* Prevent text selection during drag */
-    .no-select{user-select:none;-webkit-user-select:none}
+    .color-dots{display:flex;gap:6px;margin-top:8px}
+    .color-dot{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;box-shadow:0 0 0 1px var(--line) inset;transition:.15s}
+    .color-dot.active{border-color:var(--text);transform:scale(1.15)}
   </style>
 </head>
-<body class="no-select">
+<body>
   <div id="loader">
     <div class="loader-inner">
       <div class="loader-ring"></div>
-      <div class="loader-text">INITIALIZING μBOT SWARM</div>
+      <div class="loader-text">SFIT μ-BOT LAB • LOADING SWARM</div>
+      <div class="loader-bar"><i></i></div>
     </div>
   </div>
 
   <canvas id="canvas"></canvas>
-  <div id="touchArea"></div>
-  
+
   <header class="hud-top">
     <div class="brand">
       <div class="brand-mark"><span>μB</span></div>
       <div class="brand-text">
-        <h1>SFIT • MICROBOT v4.2</h1>
-        <p>HIRO HAMADA / SWARM INTELLIGENCE</p>
+        <h1>SFIT • MICROBOT v5.0 MASSIVE</h1>
+        <p>24 FORMATIONS • JOYSTICKS • EIFFEL TOWER • MOBILE LAB</p>
+      </div>
+    </div>
+    <div class="hud-center">
+      <div class="seg-toggle" id="modeSeg">
+        <button class="seg-btn active" data-seg="build">BUILD</button>
+        <button class="seg-btn" data-seg="camera">CAMERA</button>
       </div>
     </div>
     <div class="hud-right">
@@ -280,105 +194,134 @@
         <div class="dot"></div>
         <span id="transLabel">HIRO • 2.4GHz LINKED</span>
       </div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle controls">
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
     </div>
   </header>
 
   <div class="perf-badge" id="perfBadge">
-    <span>BOTS: <b id="activeCountM">240</b></span>
+    <span>BOTS: <b id="activeCountM">140</b></span>
     <span>FPS: <b id="fpsM">--</b></span>
+    <span id="modeLabelM">ORBIT</span>
+  </div>
+
+  <!-- Joysticks -->
+  <div class="joystick left" id="joyTrans">
+    <div class="joystick-label">MOVE μBOTS</div>
+    <div class="joystick-base"><div class="joystick-stick"></div></div>
+  </div>
+  <div class="joystick right" id="joyCam">
+    <div class="joystick-label">LOOK AROUND</div>
+    <div class="joystick-base"><div class="joystick-stick"></div></div>
+  </div>
+
+  <div class="float-controls" id="floatControls">
+    <button class="float-btn" id="btnZoomIn">+</button>
+    <button class="float-btn small" id="btnTransUp">Y↑</button>
+    <button class="float-btn small" id="btnTransDown">Y↓</button>
+    <button class="float-btn" id="btnZoomOut">−</button>
+    <button class="float-btn small" id="btnResetCam">⌖</button>
   </div>
 
   <aside class="panel-left" id="panelLeft">
     <div class="sheet-handle" id="sheetHandle"></div>
-    <div class="sheet-scroll">
+    <div class="scroll">
       <div class="card">
-        <h2>Swarm Formation <span class="collapse">↕</span></h2>
+        <h2>Formation Lab — 24 Builds <span style="text-transform:none;letter-spacing:0.5px;color:var(--accent)">DRAG → JOYSTICKS → BUILD</span></h2>
+        <div class="chip-row" id="catFilters">
+          <button class="chip active" data-cat="all">ALL</button>
+          <button class="chip" data-cat="arch">🏛️ ARCHITECTURE</button>
+          <button class="chip" data-cat="organic">🧬 ORGANIC</button>
+          <button class="chip" data-cat="physics">🌀 PHYSICS</button>
+          <button class="chip" data-cat="fun">🎉 FUN</button>
+        </div>
         <div class="modes" id="modes">
-          <button class="mode-btn active" data-mode="orbit"><b>ORBIT</b><small>Idle hold</small></button>
-          <button class="mode-btn" data-mode="tower"><b>TOWER</b><small>Vertical</small></button>
-          <button class="mode-btn" data-mode="sphere"><b>SPHERE</b><small>Hollow shell</small></button>
-          <button class="mode-btn" data-mode="wave"><b>WAVE</b><small>Sine surface</small></button>
-          <button class="mode-btn" data-mode="bridge"><b>BRIDGE</b><small>Span link</small></button>
-          <button class="mode-btn" data-mode="bh6"><b>BH-6</b><small>Logo build</small></button>
-          <button class="mode-btn" data-mode="vortex"><b>VORTEX</b><small>Spiral</small></button>
-          <button class="mode-btn" data-mode="scatter"><b>SCATTER</b><small>Chaos</small></button>
+          <!-- injected by JS -->
+        </div>
+        <div class="build-progress"><i id="buildProg"></i></div>
+        <div class="cta-row">
+          <button class="btn" id="btnAuto">AUTO BUILD: OFF</button>
+          <button class="btn" id="btnAssemble">ASSEMBLE</button>
+          <button class="btn" id="btnScatter">SCATTER</button>
         </div>
       </div>
 
       <div class="card">
-        <h2>Neuro-Link Tuning</h2>
+        <h2>Neuro-Link & Colors</h2>
         <div class="sliders">
-          <div class="slider-row">
-            <div class="slider-label"><span>COUNT</span><span id="countVal">240</span></div>
-            <input id="count" type="range" min="30" max="360" step="10" value="240"/>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label"><span>COHESION</span><span id="cohesionVal">0.62</span></div>
-            <input id="cohesion" type="range" min="0" max="1" step="0.01" value="0.62"/>
-          </div>
-          <div class="slider-row">
-            <div class="slider-label"><span>LINK DIST</span><span id="linkVal">1.4</span></div>
-            <input id="linkDist" type="range" min="0.3" max="3" step="0.1" value="1.4"/>
-          </div>
+          <div class="slider-row"><div class="slider-label"><span>COUNT</span><span id="countVal">140</span></div><input id="count" type="range" min="24" max="420" step="12" value="140"/></div>
+          <div class="slider-row"><div class="slider-label"><span>COHESION</span><span id="cohesionVal">0.62</span></div><input id="cohesion" type="range" min="0" max="1" step="0.01" value="0.62"/></div>
+          <div class="slider-row"><div class="slider-label"><span>LINK DIST</span><span id="linkVal">1.4</span></div><input id="linkDist" type="range" min="0.3" max="3.5" step="0.1" value="1.4"/></div>
+          <div class="slider-row"><div class="slider-label"><span>BUILD SPEED</span><span id="speedVal">1.0</span></div><input id="buildSpeed" type="range" min="0.2" max="3" step="0.1" value="1"/></div>
         </div>
-        <div class="cta-row" style="margin-top:16px">
+        <div class="color-dots" id="colorDots">
+          <div class="color-dot active" data-color="hiro" style="background:#00e5ff" title="Hiro"></div>
+          <div class="color-dot" data-color="yokai" style="background:#ff1744" title="Yokai"></div>
+          <div class="color-dot" data-color="gogo" style="background:#ffe600" title="GoGo"></div>
+          <div class="color-dot" data-color="wasabi" style="background:#29ff7a" title="Wasabi"></div>
+          <div class="color-dot" data-color="honey" style="background:#ff6bd6" title="Honey"></div>
+          <div class="color-dot" data-color="fred" style="background:#5a7bff" title="Fred"></div>
+        </div>
+        <div class="cta-row" style="margin-top:12px">
           <button class="btn" id="btnHiro">HIRO [B]</button>
           <button class="btn" id="btnYokai" style="border-color:#3a1e27;color:#ff8a9e">YOKAI [R]</button>
+          <button class="btn" id="btnCameraToggle">CAMERA MODE</button>
         </div>
       </div>
 
       <div class="card">
-        <h2>Telemetry</h2>
+        <h2>Telemetry & Mobile Guide</h2>
         <div class="telemetry">
-          <div>MICROBOTS: <strong id="activeCount">240</strong> • FPS: <strong id="fps">--</strong> • LINKS: <strong id="linkCount">0</strong></div>
-          <div>MAG FIELD: <strong id="field">STABLE</strong> • MODE: <strong id="modeLabel">ORBIT</strong></div>
+          <div>BOTS: <strong id="activeCount">140</strong> • FPS: <strong id="fps">--</strong> • LINKS: <strong id="linkCount">0</strong> • MODE: <strong id="modeLabel">ORBIT</strong></div>
+          <div>MAG FIELD: <strong id="field">STABLE</strong> • HEIGHT: <strong id="heightVal">2.0</strong>m</div>
           <div class="grid2">
-            <div class="kv">CORE<br/><strong>CARBON CHASSIS</strong></div>
-            <div class="kv">LINK<br/><strong>MAG-LEV + VDWAALS</strong></div>
-            <div class="kv">CPU<br/><strong>ARM M0 48MHz</strong></div>
-            <div class="kv">MASS<br/><strong>3.2g • 25mm</strong></div>
+            <div class="kv">JOY LEFT<br/><strong>MOVE TRANSMITTER X/Z</strong> drag left side</div>
+            <div class="kv">JOY RIGHT<br/><strong>ORBIT CAMERA</strong> drag right side</div>
+            <div class="kv">PINCH<br/><strong>ZOOM IN/OUT</strong> 2 fingers</div>
+            <div class="kv">Y↑ Y↓<br/><strong>TRANSMITTER HEIGHT</strong></div>
           </div>
-          <div style="margin-top:12px;line-height:1.6">
-            <span style="color:var(--accent)">“The microbots… they move however I want them to.” — Hiro</span><br/>
-            Tap + drag empty space to move neurotransmitter. Pinch or scroll to zoom. Double-tap to punch.
+          <div style="margin-top:10px;line-height:1.5">
+            <span style="color:var(--accent)">NEW:</span> Eiffel Tower builds layer-by-layer with 4 curved legs, 3 platforms, X-bracing. Heart beats, DNA spins, Baymax blinks. Left half screen = move swarm, right half = look around. Use BUILD/CAMERA toggle.
           </div>
         </div>
       </div>
 
       <div class="card" id="mobileBlueprintCard" style="display:none">
         <h2>μBOT Unit</h2>
-        <div class="blueprint" style="height:200px">
-          <canvas id="microSingleMobile"></canvas>
-        </div>
+        <div class="blueprint" style="height:200px"><canvas id="microSingleMobile"></canvas></div>
       </div>
     </div>
   </aside>
 
   <aside class="panel-right">
-    <div class="card">
-      <h2>μBOT — UNIT DETAIL</h2>
-      <div class="blueprint">
-        <canvas id="microSingle"></canvas>
+    <div class="scroll">
+      <div class="card">
+        <h2>μBOT — UNIT DETAIL</h2>
+        <div class="blueprint"><canvas id="microSingle"></canvas></div>
+        <div class="specs">
+          <div class="spec"><b>2x Mag-Legs</b>NdFeB 0.4N grip</div>
+          <div class="spec"><b>Transceiver</b>2.4 / 5.8 GHz</div>
+          <div class="spec"><b>Locomotion</b>0.8 m/s crawl</div>
+          <div class="spec"><b>Power</b>LiPo 30mAh 12min</div>
+          <div class="spec"><b>New: Auto-Build</b>Layer reveal + progress bar</div>
+          <div class="spec"><b>Mobile</b>Dual joysticks + float zoom</div>
+        </div>
       </div>
-      <div class="specs">
-        <div class="spec"><b>2x Mag-Legs</b>NdFeB 0.4N grip</div>
-        <div class="spec"><b>Transceiver</b>2.4 / 5.8 GHz</div>
-        <div class="spec"><b>Locomotion</b>0.8 m/s crawl</div>
-        <div class="spec"><b>Power</b>LiPo 30mAh 12min</div>
-      </div>
-      <div style="margin-top:14px;font-family:'JetBrains Mono';font-size:10px;color:var(--muted);line-height:1.6">
-        The SFIT Microbot links via controlled magnetism. One is dumb. 10,000 is a superorganism. Neurotransmitter translates thought to movement.
+      <div class="card">
+        <h2>Quick Tips</h2>
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--muted);line-height:1.6">
+          • <b>Eiffel Tower</b> looks best with 200+ bots, cohesion 0.75, link 1.2<br/>
+          • <b>DNA</b> spins automatically — cohesion low 0.35 for twist<br/>
+          • Double-tap / double-click to punch scatter<br/>
+          • Use <b>ASSEMBLE</b> for step-by-step build animation
+        </div>
       </div>
     </div>
   </aside>
 
-  <div class="hint">
-    <span><kbd>Mouse</kbd> move transmitter • <kbd>Drag</kbd> orbit • <kbd>Scroll</kbd> zoom • <kbd>Double-click</kbd> punch</span>
-  </div>
-  <div class="mobile-hint" id="mobileHint">👆 Drag to move transmitter • 🤏 Pinch to zoom • 👆👆 Double-tap to punch</div>
+  <div class="hint"><span><kbd>Mouse</kbd> move μ • <kbd>Drag right</kbd> orbit • <kbd>Scroll</kbd> zoom • <kbd>B/R</kbd> color • <kbd>Double-click</kbd> punch</span></div>
+  <div class="mobile-hint" id="mobileHint">👈 Left = MOVE • Right = LOOK • 🤏 Pinch = ZOOM • Tap BUILD/CAMERA to switch</div>
 
   <script type="importmap">
   {
