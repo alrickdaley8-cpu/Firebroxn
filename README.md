@@ -12,7 +12,8 @@ neurotransmitter headband.
 synth SFX, four color themes (including Baymax armor red), ghost trails, screenshot capture
 — and an auto-demo with scripted surges so it shows off even before you touch it.
 
-**Live demo:** deployed to GitHub Pages by CI (see *Deployments* on the repo).
+**Live demo:** ready to publish to GitHub Pages — a one-time, two-step setup described in
+[Build & deploy](#build--deploy).
 
 ## Run it
 
@@ -61,9 +62,17 @@ New bots visibly fly in from off-screen; surplus bots peel away.
 npm run build      # stamps version/commit/date, cache-busts assets → dist/
 ```
 
-CI (`.github/workflows/deploy.yml`) builds on every push and deploys `dist/` to
-**GitHub Pages** via `actions/deploy-pages`. `build-info.json` and the build meta tags in
-`index.html` record exactly which commit is live.
+**CI → GitHub Pages.** The workflow is ready at `ci/deploy-to-pages.yml` — it builds
+`dist/` on every push and publishes with `actions/deploy-pages`. One-time setup (details
+in the file's header comment):
+
+1. Move `ci/deploy-to-pages.yml` → `.github/workflows/deploy.yml`
+   (via the GitHub web UI or a local push from your account — the bot token that opened
+   this changeset isn't allowed to write workflow files).
+2. Repo **Settings → Pages → Source: "GitHub Actions"**.
+
+After that, every push auto-builds and deploys. `build-info.json` and the build meta tags
+in `index.html` always record exactly which commit is live.
 
 ## Files
 
@@ -73,7 +82,7 @@ css/style.css         sci-fi lab HUD styling
 js/microbots.js       swarm engine, 9 modes, themes, rendering, audio
 scripts/build.js      dependency-free build → dist/
 scripts/serve.js      tiny static dev server
-.github/workflows/    CI: build → GitHub Pages
+ci/deploy-to-pages.yml  CI workflow (build → GitHub Pages) — one-time setup inside
 assets/banner.png     README art
 ```
 

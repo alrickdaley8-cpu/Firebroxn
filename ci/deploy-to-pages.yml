@@ -1,0 +1,52 @@
+# ----------------------------------------------------------------------------
+# Build & Deploy to GitHub Pages
+#
+# ONE-TIME SETUP (why this file lives in ci/ and not .github/workflows/):
+# the automation token that authored this repo changeset lacks the `workflows`
+# scope, so GitHub refuses pushes that modify .github/workflows/*. To enable:
+#   1. Move this file to .github/workflows/deploy.yml  (web UI "Add file", or a
+#      local `git mv` + push from your own account — both have the permission).
+#   2. Repo → Settings → Pages → Source: "GitHub Actions".
+# From then on every push builds dist/ and deploys it to Pages automatically.
+# ----------------------------------------------------------------------------
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main, 'arena/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build static site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build (stamp + bundle to dist/)
+        run: node scripts/build.js
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
