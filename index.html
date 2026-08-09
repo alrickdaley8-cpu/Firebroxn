@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<meta name="description" content="MICROBOTS — an interactive neural-linked microbot swarm. A Big Hero 6 fan demo: towers, waves, galaxies, rain, the San Fransokyo skyline, and Baymax himself, all steered by your cursor." />
+<meta property="og:title" content="MICROBOTS — a Big Hero 6 fan demo" />
+<meta property="og:description" content="Thousands of linking microbots steered by your cursor, like Hiro's neurotransmitter." />
+<meta property="og:image" content="assets/banner.png" />
+<!--BUILD_META-->
+<title>MICROBOTS — a Big Hero 6 fan demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='18' y='12' width='28' height='40' rx='10' fill='%231d222c' stroke='%2346ffc2' stroke-width='4'/%3E%3Ccircle cx='32' cy='22' r='4' fill='%2346ffc2'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/style.css?v=__BUILD__" />
+</head>
+<body>
+<canvas id="scene"></canvas>
+
+<!-- ======================= boot sequence overlay ======================= -->
+<div id="boot" class="overlay">
+  <div class="card boot-card">
+    <div class="boot-head"><span class="pulse"></span> SFIT · NEURAL SWARM INTERFACE v6.2</div>
+    <div id="boot-log" aria-live="polite"></div>
+    <div class="bar"><i id="boot-bar"></i></div>
+    <p class="boot-skip">click or press any key to skip</p>
+  </div>
+</div>
+
+<!-- ============================ help overlay =========================== -->
+<div id="help" class="overlay hidden">
+  <div class="card help-card">
+    <h2>CONTROL MANUAL</h2>
+    <div class="help-grid">
+      <span><kbd>move</kbd></span><p>neural link — steer the swarm</p>
+      <span><kbd>hold LMB</kbd></span><p>gather — charge the swarm into a ball</p>
+      <span><kbd>release</kbd></span><p>surge — detonate a shockwave</p>
+      <span><kbd>hold RMB</kbd></span><p>repel field — push bots away</p>
+      <span><kbd>wheel</kbd></span><p>spread — expand / tighten the swarm</p>
+      <span><kbd>1–9</kbd></span><p>modes: swarm · tower · wave · galaxy · rain · city · baymax · heart · text</p>
+      <span><kbd>space</kbd></span><p>instant pulse burst</p>
+      <span><kbd>T</kbd></span><p>color theme (green / armor red / hero purple / cyan)</p>
+      <span><kbd>G</kbd></span><p>ghost trails</p>
+      <span><kbd>P</kbd> <kbd>R</kbd></span><p>pause · scatter-reset</p>
+      <span><kbd>C</kbd> <kbd>F</kbd></span><p>capture png · fullscreen</p>
+      <span><kbd>5</kbd></span><p>in text mode: cycle phrases</p>
+      <span><kbd>H</kbd></span><p>close this manual</p>
+    </div>
+    <p class="help-close">H · ESC · click anywhere to close</p>
+  </div>
+</div>
+
+<!-- =============================== HUD ================================= -->
+<header class="ui hud-top">
+  <div class="brand">
+    <span class="pulse"></span>
+    <div>
+      <h1>MICROBOTS</h1>
+      <p>neural-swarm interface · firebroxn labs</p>
+    </div>
+  </div>
+  <div class="stats">
+    <span id="stat-mode">SWARM LINK</span>
+    <span id="stat-count">0 BOTS</span>
+    <span id="stat-links">0 LINKS</span>
+    <span id="stat-fps">— FPS</span>
+  </div>
+</header>
+
+<nav class="ui modes" id="modes" aria-label="Swarm modes">
+  <button data-mode="swarm"   class="active"><b>1</b>SWARM</button>
+  <button data-mode="tower"><b>2</b>TOWER</button>
+  <button data-mode="wave"><b>3</b>WAVE</button>
+  <button data-mode="galaxy"><b>4</b>GALAXY</button>
+  <button data-mode="rain"><b>5</b>RAIN</button>
+  <button data-mode="skyline"><b>6</b>CITY</button>
+  <button data-mode="baymax"><b>7</b>BAYMAX</button>
+  <button data-mode="heart"><b>8</b>HEART</button>
+  <button data-mode="title"><b>9</b>TEXT</button>
+</nav>
+
+<aside class="ui dock">
+  <label class="slider">
+    <span>bots</span>
+    <input id="count" type="range" min="400" max="2200" step="100" value="1500" />
+  </label>
+  <div class="dock-btns">
+    <button id="sfx"   title="interface sounds [S]" aria-pressed="true">SFX</button>
+    <button id="hum"   title="ambient swarm hum"    aria-pressed="false">HUM</button>
+    <button id="theme" title="color theme [T]">PAL</button>
+    <button id="trail" title="ghost trails [G]"     aria-pressed="false">GST</button>
+    <button id="shot"  title="capture png [C]">CAM</button>
+    <button id="full"  title="fullscreen [F]">FULL</button>
+    <button id="helpBtn" title="control manual [H]">?</button>
+  </div>
+</aside>
+
+<footer class="ui hints">
+  <span><b>move</b> link</span>
+  <span><b>hold</b> gather</span>
+  <span><b>release</b> surge</span>
+  <span><b>RMB</b> repel</span>
+  <span><b>wheel</b> spread</span>
+  <span><b>H</b> manual</span>
+</footer>
+
+<div class="ui toast" id="toast"></div>
+
+<script src="js/microbots.js?v=__BUILD__"></script>
+</body>
+</html>

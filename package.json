@@ -1,0 +1,12 @@
+{
+  "name": "firebroxn-microbots",
+  "version": "2.0.0",
+  "private": true,
+  "description": "MICROBOTS — an interactive neural-linked microbot swarm. A Big Hero 6 fan demo (zero dependencies).",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "build": "node scripts/build.js"
+  },
+  "keywords": ["microbots", "big-hero-6", "canvas", "swarm", "fan-demo"],
+  "license": "MIT"
+}
