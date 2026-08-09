@@ -586,6 +586,59 @@ export const Formations = {
       pts.push(new THREE.Vector3((Math.random()-0.5)*20, Math.random()*10-1, (Math.random()-0.5)*20));
     }
     return pts;
+  },
+
+  dome: (count, center, t)=>{
+    const pts=[]; const R=3.2;
+    for(let i=0;i<count;i++){
+      // hemisphere distribution
+      const phi=Math.random()*Math.PI*0.5; // 0..90 deg for dome
+      const theta=Math.random()*Math.PI*2;
+      const r=R * (0.92 + Math.random()*0.16);
+      const x=r*Math.sin(phi)*Math.cos(theta);
+      const y=r*Math.cos(phi) -0.8;
+      const z=r*Math.sin(phi)*Math.sin(theta);
+      pts.push(new THREE.Vector3(center.x+x, y+2.5, center.z+z));
+    }
+    return pts;
+  },
+
+  arch: (count, center, t)=>{
+    const pts=[]; const span=10, height=4.5;
+    for(let i=0;i<count;i++){
+      const norm=i/count;
+      const x=(norm-0.5)*span;
+      // catenary arch: y = h * cos(x * k) or parabolic
+      const y = height * Math.cos((x/span)*Math.PI*0.85) + Math.sin(x*0.8)*0.05;
+      const zOffset=((i%8)-3.5)*0.38;
+      // thickness
+      const thickY=(Math.random()-0.5)*0.35;
+      const thickZ=(Math.random()-0.5)*0.15;
+      pts.push(new THREE.Vector3(center.x + x,  -0.5 + y + thickY, center.z + zOffset + thickZ));
+    }
+    return pts;
+  },
+
+  functionalBridge: (count, center, t)=>{
+    // thicker, load-bearing bridge with deck and cables - optimized for physics test
+    const pts=[]; const span=12;
+    for(let i=0;i<count;i++){
+      const norm=i/count;
+      const x=(norm-0.5)*span;
+      const catenary=Math.cosh(x*0.22)*0.85 -1.2;
+      const isDeck = Math.random()<0.55;
+      if(isDeck){
+        const y=3.2 - catenary*0.6;
+        const z=(Math.random()-0.5)*1.6;
+        pts.push(new THREE.Vector3(center.x+x, y, center.z+z));
+      } else {
+        // cable/suspender
+        const y=3.2 - catenary*0.6 + Math.random()*1.8 + 0.6;
+        const z=(Math.random()<0.5? -1:1)*(0.9 + Math.random()*0.1);
+        pts.push(new THREE.Vector3(center.x+x, y, center.z+z));
+      }
+    }
+    return pts;
   }
 };
 
