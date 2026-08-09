@@ -1,86 +1,50 @@
-# Firebroxn — Big Hero 6 Microbot Swarm v5.0 MASSIVE
+# Firebroxn — Big Hero 6 Microbot Swarm v6.0 PRECISION
 
-Interactive **SFIT μBOT** swarm lab — 25 formations including **Eiffel Tower**, DNA, Heart, Baymax — built mobile-first with dual joysticks.
+**Precision Builder Swarm** — upgraded μBOTS with dual-joint legs, weld-locking, ghost blueprints, smart scaffolding.
 
 **Live Demo (after Pages setup):** https://alrickdaley8-cpu.github.io/Firebroxn/
 
-## 🆕 v5.0 Massive Update
+## v6.0 PRECISION — Bots Better at Making Stuff
 
-### 24+ Formations
-**Architecture (🏛️):** Tower, Bridge, Eiffel Tower 🗼 (4 curved legs, 3 platforms, X-bracing, apex), Pyramid 🔺, Stairs 🌀, City 🏙️, Satellite 📡
-**Organic (🧬):** DNA double helix, Heart ❤️ beating, Baymax 🤖 head, Dragon 🐉 serpent, Hand 🖐️ grab
-**Physics (🌀):** Orbit, Sphere 🔮, Wave 🌊, Vortex 🌪️, Cube 🧊 wireframe, Infinity ♾️, Torus 🍩, Funnel 🌪️ tornado, Helix Rings 💍
-**Fun (🎉):** BH-6 ⚡ logo, Shield 🛡️, HIRO 🔤 text, Scatter 💥 chaos
+### 🤖 Upgraded Chassis 2.0
+- Chamfered chassis (0.58x0.16x0.42) + mid plate + top plate with 4 screws, antenna with glowing tip
+- LED housing cylinder, side vents, bottom thruster disc pulsing with speed
+- **Legs 2.0:** Upper (0.14m) + knee sphere + lower (0.16m) + foot magnet box + tip glow sphere — 4 legs with IK
+- **Tripod gait:** Legs 0&3 together, 1&2 opposite (π offset), swing sin(phase)*0.55, lift max(sin)*0.35, idle sway
+- On lock: legs tuck inward (upper 0.15, lower -1.2), foot emissive 1.2 + tip 2.5, thruster opacity = speed*0.35
 
-Eiffel Tower algorithm: procedural curved legs using quadratic interpolation, 4 pillars base→p1→p2→top→apex with inward arch curve, platforms at 3 heights, X-bracing noise, capable of 400+ bots layer-by-layer auto-build.
+### 🧠 Builder Intelligence — Better at Making Stuff
+- **Weld Locking:** When dist < precisionDist (0.16m default), bot locks, vel 0, spawns 7 sparks, transmitter pulses, LED solid
+- **Smart Assign:** Bottom-up greedy nearest O(n²) — sorted points by Y ascending, closest bot to lowest unfinished target first. Minimizes travel, builds foundation first
+- **Scaffolding Layers:** buildProgress 0..1 maps to allowedCount = count*progress. Only lowest Y points allowed. Top layers held in orbit reserve until lower 80% locked. Eiffel Tower no longer floats!
+- **Precision Mode:** Exponential slowdown near target `approachScale = clamp(dist*1.2,0.12,1)^1.2`, damping 0.92, separation 0.6x for tight packing
+- **Scaffold Attraction:** Bots attracted 0.008 to nearest locked bot within 4m for cluster stability
+- **Ghost Blueprint:** Points 0.16 size, opacity 0.20+progress*0.12, shows full shape even if not yet allowed
+- **Spark System:** 600 max additive Points, velocity outward + up + gravity, lifetime 1s, color theme, burst on lock
+- **Transform:** Scale 0.35-2.8 and RotY 0-360 around transmitter center, reassign on change — resize Eiffel Tower live
+- **Telemetry:** Locked count/%, avg error meters, layer progress, accuracy
 
-### 📱 Mobile Overhaul — Full Movement
-- **Dual Joysticks:** Left MOVE μBOTS (X/Z plane), Right LOOK AROUND (orbit yaw/pitch)
-- **Half-screen logic:** Left half = move transmitter, Right half = orbit camera — simultaneous 2-hand control like a game
-- **Pinch-to-zoom** custom + OrbitControls DOLLY_PAN, two-finger pan
-- **Floating controls:** +/- zoom, Y↑/Y↓ height, reset ⌖ — bottom-right
-- **BUILD vs CAMERA toggle** — segmented control, switch interaction
-- **Bottom sheet** with handle swipe, category chips, 24 formation grid
-- **Auto-build** progressive reveal with progress bar — watch Eiffel construct layer-by-layer
-- Haptics, safe-area insets, 44px targets, 140 bots default mobile (240 desktop)
+### 🏛️ 25 Formations
+Orbit, Tower, Sphere, Wave, Bridge, BH-6, Vortex, **Eiffel Tower** (4 curved legs + 3 platforms + X-bracing, now builds bottom-up), DNA, Heart beating, Baymax, Cube, Pyramid, Stairs spiral, Infinity, Torus, Dragon, Shield, Funnel, HIRO text, City skyline, Hand grab, Satellite dish, Helix Rings, Scatter
+
+### 📱 Mobile: Dual Joysticks + Pinch Zoom + Height
+- Left joystick MOVE, Right LOOK AROUND (orbit yaw/pitch), Pinch zoom custom, floating +/-, Y↑/Y↓, reset ⌖
+- Half-screen: left moves transmitter, right orbits — simultaneous 2-hand control
 
 ### Controls
-- **Mobile BUILD mode:** Drag left side = move transmitter, Right side drag = orbit, Pinch = zoom, Joysticks = alternative
-- **Mobile CAMERA mode:** Drag anywhere = orbit, Pinch = zoom, Left joystick still moves bots
-- **Desktop:** Mouse hover moves transmitter, Drag = orbit, Scroll = zoom, Double-click = punch
+**Build:** Scale, Rotation Y, Precision distance sliders; Toggles: Ghost, Sparks, Smart Assign, Scaffold, Precision, Mag Links, Hold Orbit, Lock Glow; AUTO BUILD progress bar with layer count; Assemble/Scatter/Unlock All; S screenshot
 
-### Tech Stack
-- Three.js 0.160 + Vite 5 + ES Modules
-- `formations.js` — pure functions `getFormation(mode,count,center,time)`
-- `joystick.js` — custom joystick class (touch+mouse, maxRadius)
-- Swarm with separation + cohesion, spatial hash for links (600 mobile / 1200 desktop max)
-- Themes: Hiro cyan, Yokai red, GoGo yellow, Wasabi green, Honey pink, Fred blue
+**Themes:** Hiro cyan, Yokai red, GoGo yellow, Wasabi green, Honey pink, Fred blue
 
 ## Dev
 ```bash
 npm install
-npm run dev   # http://localhost:5173/Firebroxn/
-npm run build # dist/
+npm run dev # /Firebroxn/
+npm run build # 24KB html + 542KB js (140KB gzip)
 ```
 
-## Deploy to GitHub Pages
-Vite base is `/Firebroxn/` for Pages.
-
-**GitHub App cannot auto-push workflow file due to permission** — add manually once:
-
-1. Settings → Pages → Source: GitHub Actions
-2. Create `.github/workflows/deploy.yml` (content in repo file `.github/workflows/deploy.yml` local copy):
-
-```yaml
-name: Build and Deploy Microbot
-on:
-  push:
-    branches: [ "main", "arena/019fe717-firebroxn" ]
-  workflow_dispatch:
-permissions: { contents: read, pages: write, id-token: write }
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: npm }
-      - run: npm ci
-      - run: npm run build
-      - run: cp dist/index.html dist/404.html
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: ./dist }
-  deploy:
-    environment: { name: github-pages, url: ${{ steps.deployment.outputs.page_url }} }
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-After added, every push auto-deploys to Pages.
+## Deploy
+Base `/Firebroxn/` for Pages. Add `.github/workflows/deploy.yml` manually once (GitHub App cannot push workflow file). Settings → Pages → Source: GitHub Actions. Content in repo local `.github/workflows/deploy.yml`.
 
 ---
-Made with ❤️ SFIT Microbot v5.0 — "The microbots… they move however I want them to."
+v6 PRECISION — "The microbots… they now weld, scaffold, and build bottom-up like real constructors."
