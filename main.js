@@ -131,21 +131,23 @@ const ghostMat=new THREE.PointsMaterial({ color:themes[theme].color, size:0.20, 
 const ghostPoints=new THREE.Points(ghostGeo, ghostMat); scene.add(ghostPoints);
 
 // bloom composer
-let composer, bloomPass;
-let bloomEnabled=!isMobile; // off on mobile for perf, toggleable
+let composer=null, bloomPass=null;
+let bloomEnabled=false; // default OFF for performance and to fix no-load bug, user can toggle ON
 function initComposer(){
-  const renderPass=new RenderPass(scene, camera);
-  composer=new EffectComposer(renderer);
-  composer.addPass(renderPass);
-  bloomPass=new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), isMobile?0.55:0.85, 0.32, 0.55);
-  composer.addPass(bloomPass);
+  if(isMobile) return; // skip on mobile for perf
+  try{
+    const renderPass=new RenderPass(scene, camera);
+    composer=new EffectComposer(renderer);
+    composer.addPass(renderPass);
+    bloomPass=new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.85, 0.32, 0.55);
+    composer.addPass(bloomPass);
+  }catch(e){
+    console.warn('Bloom init failed, fallback to no bloom', e);
+    composer=null; bloomPass=null; bloomEnabled=false;
+  }
 }
-try{
-  initComposer();
-}catch(e){
-  console.warn('Bloom init failed, fallback to no bloom', e);
-  bloomEnabled=false;
-}
+initComposer();
+if(bloomEnabled && !composer) bloomEnabled=false;
 
 // physics
 const world=new CANNON.World({ gravity:new CANNON.Vec3(0,-9.81,0) });
@@ -666,8 +668,8 @@ function setInteractionMode(m){
   interactionMode=m;
   segBtns.forEach(b=>b.classList.toggle('active', b.dataset.seg===m));
   if(camToggleBtn) camToggleBtn.textContent=m==='camera'?'BUILD MODE': m==='draw'?'EXIT DRAW':'CAMERA MODE';
-  if(m==='draw'){ drawMode=true; document.getElementById('drawCanvas').style.display='block'; document.getElementById('drawPreview').classList.add('active'); controls.enabled=false; }
-  else { if(m!=='draw' && drawMode){ drawMode=false; isDrawing=false; document.getElementById('drawCanvas').style.display='none'; } if(m==='build') controls.enabled=true; }
+  if(m==='draw'){ drawMode=true; const dc=document.getElementById('drawCanvas'); if(dc) dc.style.display='block'; document.getElementById('drawPreview')?.classList?.add('active'); controls.enabled=false; }
+  else { if(m!=='draw' && drawMode){ drawMode=false; isDrawing=false; const dc=document.getElementById('drawCanvas'); if(dc) dc.style.display='none'; } if(m==='build') controls.enabled=true; }
 }
 segBtns.forEach(b=> b.addEventListener('click', ()=> setInteractionMode(b.dataset.seg)));
 camToggleBtn?.addEventListener('click', ()=> setInteractionMode(interactionMode==='build'?'camera':'build'));
@@ -855,7 +857,7 @@ btnBuildWall.addEventListener('click', ()=>{
   swarm.setFormationPoints(transformed);
   swarm.buildProgress=0.02; buildProg=0.02; autoBuild=true; btnAuto.textContent='AUTO BUILD: ON'; btnAuto.classList.add('active');
   drawMode=false; setInteractionMode('build'); btnDrawMode.textContent='DRAW WALL: OFF'; btnDrawMode.classList.remove('active');
-  document.getElementById('drawCanvas').style.display='none';
+  const dc=document.getElementById('drawCanvas'); if(dc) dc.style.display='none';
   if(navigator.vibrate) navigator.vibrate(20);
 });
 btnClearDraw.addEventListener('click', ()=>{
