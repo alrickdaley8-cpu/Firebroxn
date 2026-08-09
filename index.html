@@ -4,23 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
   <meta name="theme-color" content="#07080d"/>
-  <title>MICROBOT v7 PHYSICS — Real Structures That Work</title>
+  <title>MICROBOT v7.1 CLASSIC — No Locking, Bright Mesh, Physics Works</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#07080d;--panel:#10131c;--panel-2:#171b2b;--line:#1e2539;--line-2:#2d3654;--accent:#00e5ff;--accent2:#ff1744;--text:#e9edff;--muted:#8b92ad;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+    :root{--bg:#07080d;--panel:#10131c;--line:#1e2539;--line-2:#2d3654;--accent:#00e5ff;--accent2:#ff1744;--text:#e9edff;--muted:#8b92ad;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
     *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
     html,body{height:100%;background:var(--bg);overscroll-behavior:none;font-family:'Space Grotesk',system-ui,sans-serif;color:var(--text)}
     body{position:fixed;inset:0;overflow:hidden}
     @media(max-width:1300px){body{position:relative;height:100dvh}}
     #canvas{position:fixed;inset:0;z-index:0;touch-action:none;width:100%!important;height:100%!important}
-    #drawCanvas{position:fixed;inset:0;z-index:1;touch-action:none;pointer-events:none;display:none}
     #loader{position:fixed;inset:0;z-index:200;display:grid;place-items:center;background:radial-gradient(800px 500px at 50% 15%, rgba(0,229,255,0.16), transparent), var(--bg);transition:opacity .6s, visibility .6s}
     #loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
     .loader-inner{display:flex;flex-direction:column;align-items:center;gap:20px}
     .loader-ring{width:72px;height:72px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;box-shadow:0 0 28px rgba(0,229,255,.25)}
     @keyframes spin{to{transform:rotate(360deg)}}
     .loader-text{font-family:'JetBrains Mono';font-size:11px;letter-spacing:4px;color:var(--muted)}
-    .loader-sub{font-family:'JetBrains Mono';font-size:9px;color:#4a526f;letter-spacing:2px;text-align:center;max-width:320px;line-height:1.5}
+    .loader-sub{font-family:'JetBrains Mono';font-size:9px;color:#4a526f;letter-spacing:1.5px;text-align:center;max-width:340px;line-height:1.5}
     .loader-bar{width:180px;height:2px;background:var(--line);border-radius:999px;overflow:hidden}
     .loader-bar i{display:block;height:100%;width:45%;background:linear-gradient(90deg,var(--accent),#8af8ff);animation:loaderBar 1.2s ease-in-out infinite}
     @keyframes loaderBar{0%{transform:translateX(-100%)}100%{transform:translateX(360%)}}
@@ -134,22 +133,21 @@
   <div id="loader">
     <div class="loader-inner">
       <div class="loader-ring"></div>
-      <div class="loader-text">SFIT μ-BOT v7 — PHYSICS</div>
-      <div class="loader-sub">CANNON-ES PHYSICS • REAL GRAVITY • LOAD-BEARING BRIDGES • COLLAPSE • DRAW-TO-BUILD WALLS • SPHERE TEST</div>
+      <div class="loader-text">SFIT μ-BOT v7.1 CLASSIC — No Locking</div>
+      <div class="loader-sub">REVERTED TO ORIGINAL BRIGHT MESH • NO LOCKING • CLASSIC V4 LOOK • BIGGER LED • MOBILE FIXED</div>
       <div class="loader-bar"><i></i></div>
     </div>
   </div>
 
   <canvas id="canvas"></canvas>
-  <canvas id="drawCanvas"></canvas>
 
   <header class="hud-top">
-    <div class="brand"><div class="brand-mark"><span>μB</span></div><div class="brand-text"><h1>SFIT • MICROBOT v7.0 PHYSICS</h1><p>REAL STRUCTURES • GRAVITY • BRIDGE LOAD TEST • DRAW WALLS • JOYSTICKS</p></div></div>
+    <div class="brand"><div class="brand-mark"><span>μB</span></div><div class="brand-text"><h1>SFIT • MICROBOT v7.1 CLASSIC</h1><p>NO LOCKING • ORIGINAL BRIGHT MESH • PHYSICS • DRAW WALLS • FIXED MOBILE</p></div></div>
     <div class="hud-center"><div class="seg-toggle" id="modeSeg"><button class="seg-btn active" data-seg="build">BUILD</button><button class="seg-btn" data-seg="camera">CAMERA</button><button class="seg-btn" data-seg="draw">DRAW</button></div></div>
-    <div class="hud-right"><div class="transmitter-status" id="transStatus"><div class="dot"></div><span id="transLabel">HIRO • PHYSICS</span></div><button class="menu-toggle" id="menuToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
+    <div class="hud-right"><div class="transmitter-status" id="transStatus"><div class="dot"></div><span id="transLabel">HIRO • CLASSIC</span></div><button class="menu-toggle" id="menuToggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
   </header>
 
-  <div class="perf-badge" id="perfBadge"><span>BOTS: <b id="activeCountM">160</b></span><span>FPS: <b id="fpsM">--</b></span><span id="modeLabelM">ORBIT</span><span>LOCKED: <b id="lockedM">0%</b></span><span>PHYS: <b id="physM">OFF</b></span></div>
+  <div class="perf-badge" id="perfBadge"><span>BOTS: <b id="activeCountM">140</b></span><span>FPS: <b id="fpsM">--</b></span><span id="modeLabelM">ORBIT</span><span>PHYS: <b id="physM">OFF</b></span></div>
 
   <div class="joystick left" id="joyTrans"><div class="joystick-label">MOVE μBOTS</div><div class="joystick-base"><div class="joystick-stick"></div></div></div>
   <div class="joystick right" id="joyCam"><div class="joystick-label">LOOK AROUND</div><div class="joystick-base"><div class="joystick-stick"></div></div></div>
@@ -160,16 +158,16 @@
     <div class="sheet-handle" id="sheetHandle"></div>
     <div class="scroll">
       <div class="card">
-        <h2>Formation Lab — 28 Builds <span style="color:var(--accent)">v7 PHYS</span></h2>
-        <div class="chip-row" id="catFilters"><button class="chip active" data-cat="all">ALL</button><button class="chip" data-cat="arch">🏛️ ARCH</button><button class="chip" data-cat="organic">🧬 ORGANIC</button><button class="chip" data-cat="physics">🌀 PHYSICS</button><button class="chip" data-cat="fun">🎉 FUN</button><button class="chip" data-cat="functional">🏗️ FUNCTIONAL</button></div>
+        <h2>Formation Lab — 29 Builds <span style="color:var(--accent)">CLASSIC FIXED</span></h2>
+        <div class="chip-row" id="catFilters"><button class="chip active" data-cat="all">ALL</button><button class="chip" data-cat="arch">🏛️ ARCH</button><button class="chip" data-cat="organic">🧬 ORGANIC</button><button class="chip" data-cat="physics">🌀 PHYSICS</button><button class="chip" data-cat="fun">🎉 FUN</button><button class="chip" data-cat="functional">🏗️ FUNC</button></div>
         <div class="modes" id="modes"></div>
         <div class="build-progress"><i id="buildProg"></i></div>
-        <div class="build-stats"><span>PROG: <b id="progTxt">100%</b></span><span>LOCKED: <b id="lockedTxt">0/0</b></span><span>ACC: <b id="accTxt">--</b></span><span>PHYS BODIES: <b id="physTxt">0</b></span></div>
+        <div class="build-stats"><span>PROG: <b id="progTxt">100%</b></span><span>BOTS: <b id="totalCount">140</b></span><span>PHYS: <b id="physTxt">0</b></span><span>ACC: <b id="avgErr">--</b></span></div>
         <div class="cta-row"><button class="btn" id="btnAuto">AUTO BUILD: OFF</button><button class="btn" id="btnAssemble">ASSEMBLE</button><button class="btn" id="btnScatter">SCATTER</button></div>
       </div>
 
       <div class="card">
-        <h2>🏗️ Real Physics — Structures That Work</h2>
+        <h2>Physics + Draw — No Locking</h2>
         <div class="sliders">
           <div class="slider-row"><div class="slider-label"><span>GRAVITY Y</span><span id="gravVal">-9.8</span></div><input id="gravity" type="range" min="-20" max="0" step="0.5" value="-9.81"/></div>
           <div class="slider-row"><div class="slider-label"><span>WIND X</span><span id="windVal">0.0</span></div><input id="wind" type="range" min="-8" max="8" step="0.2" value="0"/></div>
@@ -179,10 +177,8 @@
           <div class="toggle" data-toggle="physics"><span>PHYSICS ENGINE</span><i></i></div>
           <div class="toggle" data-toggle="stress"><span>STRESS HEATMAP</span><i></i></div>
           <div class="toggle active" data-toggle="ghost"><span>GHOST BLUEPRINT</span><i></i></div>
-          <div class="toggle active" data-toggle="sparks"><span>WELD SPARKS</span><i></i></div>
           <div class="toggle active" data-toggle="smart"><span>SMART ASSIGN</span><i></i></div>
           <div class="toggle active" data-toggle="scaffold"><span>SCAFFOLD LAYERS</span><i></i></div>
-          <div class="toggle active" data-toggle="precisionMode"><span>PRECISION MODE</span><i></i></div>
           <div class="toggle active" data-toggle="links"><span>MAG LINKS</span><i></i></div>
         </div>
         <div class="cta-row" style="margin-top:10px">
@@ -191,60 +187,56 @@
           <button class="btn danger" id="btnCollapse">COLLAPSE TEST</button>
           <button class="btn danger" id="btnRemoveBase">REMOVE BASE</button>
         </div>
-        <div style="margin-top:10px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);line-height:1.5">
-          Build <b>Functional Bridge</b> or <b>Arch</b> with Physics ON, then Drop Ball — ball rolls across if bridge holds! Wind pushes structure. Remove Base to see realistic collapse.
-        </div>
+        <div style="margin-top:10px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted);line-height:1.5">Classic mesh restored: brighter chassis, bigger LED 0.18m (was 0.11), more emissive, visible on mobile. No locking — bots always move freely, no weld overlay making them look like dots.</div>
       </div>
 
       <div class="card">
         <h2>✏️ Draw-To-Build — Custom Walls</h2>
-        <div class="draw-preview" id="drawPreview">Tap DRAW WALL then draw on ground plane • Bots build wall along path</div>
+        <div class="draw-preview" id="drawPreview">Tap DRAW then draw on ground — bots build wall along path</div>
         <div class="sliders" style="margin-top:10px">
           <div class="slider-row"><div class="slider-label"><span>WALL HEIGHT</span><span id="wallHVal">2.5m</span></div><input id="wallHeight" type="range" min="0.5" max="6" step="0.2" value="2.5"/></div>
-          <div class="slider-row"><div class="slider-label"><span>WALL THICKNESS</span><span id="wallTVal">0.4m</span></div><input id="wallThick" type="range" min="0.2" max="1.5" step="0.1" value="0.4"/></div>
+          <div class="slider-row"><div class="slider-label"><span>WALL THICK</span><span id="wallTVal">0.4m</span></div><input id="wallThick" type="range" min="0.2" max="1.5" step="0.1" value="0.4"/></div>
         </div>
         <div class="cta-row">
           <button class="btn" id="btnDrawMode">DRAW WALL: OFF</button>
           <button class="btn" id="btnBuildWall">BUILD DRAWN WALL</button>
           <button class="btn" id="btnClearDraw">CLEAR DRAW</button>
         </div>
-        <div style="margin-top:8px;font-family:'JetBrains Mono';font-size:8.5px;color:var(--muted)">DRAW mode: drag on ground to create path. Path auto-extruded vertically. Works with physics — wall stands, can collapse!</div>
       </div>
 
       <div class="card">
-        <h2>Builder Intelligence v6 + Physics</h2>
+        <h2>Classic Builder — Fixed Mobile</h2>
         <div class="sliders">
-          <div class="slider-row"><div class="slider-label"><span>COUNT</span><span id="countVal">160</span></div><input id="count" type="range" min="24" max="460" step="12" value="160"/></div>
+          <div class="slider-row"><div class="slider-label"><span>COUNT</span><span id="countVal">140</span></div><input id="count" type="range" min="24" max="460" step="12" value="140"/></div>
           <div class="slider-row"><div class="slider-label"><span>COHESION</span><span id="cohesionVal">0.72</span></div><input id="cohesion" type="range" min="0" max="1" step="0.01" value="0.72"/></div>
           <div class="slider-row"><div class="slider-label"><span>LINK DIST</span><span id="linkVal">1.45</span></div><input id="linkDist" type="range" min="0.3" max="4" step="0.1" value="1.45"/></div>
           <div class="slider-row"><div class="slider-label"><span>SCALE</span><span id="scaleVal">1.0</span></div><input id="scale" type="range" min="0.35" max="2.8" step="0.05" value="1"/></div>
           <div class="slider-row"><div class="slider-label"><span>ROT Y</span><span id="rotVal">0°</span></div><input id="rotation" type="range" min="0" max="360" step="1" value="0"/></div>
-          <div class="slider-row"><div class="slider-label"><span>PRECISION</span><span id="precVal">0.16</span></div><input id="precision" type="range" min="0.05" max="0.5" step="0.01" value="0.16"/></div>
         </div>
         <div class="color-dots" id="colorDots"><div class="color-dot active" data-color="hiro" style="background:#00e5ff"></div><div class="color-dot" data-color="yokai" style="background:#ff1744"></div><div class="color-dot" data-color="gogo" style="background:#ffe600"></div><div class="color-dot" data-color="wasabi" style="background:#29ff7a"></div><div class="color-dot" data-color="honey" style="background:#ff6bd6"></div><div class="color-dot" data-color="fred" style="background:#5a7bff"></div></div>
-        <div class="cta-row" style="margin-top:10px"><button class="btn" id="btnHiro">HIRO</button><button class="btn" id="btnYokai">YOKAI</button><button class="btn" id="btnCameraToggle">CAMERA</button><button class="btn" id="btnClearLocks">UNLOCK ALL</button></div>
+        <div class="cta-row" style="margin-top:10px"><button class="btn" id="btnHiro">HIRO</button><button class="btn" id="btnYokai">YOKAI</button><button class="btn" id="btnCameraToggle">CAMERA</button></div>
       </div>
 
-      <div class="card" id="mobileBlueprintCard" style="display:none"><h2>μBOT v7</h2><div class="blueprint" style="height:200px"><canvas id="microSingleMobile"></canvas></div></div>
+      <div class="card" id="mobileBlueprintCard" style="display:none"><h2>μBOT Classic</h2><div class="blueprint" style="height:200px"><canvas id="microSingleMobile"></canvas></div></div>
     </div>
   </aside>
 
   <aside class="panel-right">
     <div class="scroll">
-      <div class="card"><h2>μBOT v7 — PHYSICS BUILDER</h2><div class="blueprint"><canvas id="microSingle"></canvas></div>
+      <div class="card"><h2>μBOT v7.1 — CLASSIC MESH RESTORED</h2><div class="blueprint"><canvas id="microSingle"></canvas></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;font-family:'JetBrains Mono';font-size:9px;color:var(--muted)">
-          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>Chassis 2.0</b> + screws + antenna + thruster</div>
-          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>Physics</b>Cannon-es bodies + LockConstraint</div>
-          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>Load Test</b>Drop 5kg ball, rolls if bridge holds</div>
-          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>Collapse</b>Remove base = real fall</div>
+          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>Classic Body</b>0.62x0.24x0.44 brighter #171b29</div>
+          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>LED Big</b>0.18m, emissive 4.2, visible mobile</div>
+          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>Legs Classic</b>Simple capsule + tip sphere glow</div>
+          <div style="border:1px dashed #232838;border-radius:12px;padding:7px"><b>No Locking</b>Bots always free, no 0% locked overlay</div>
         </div>
       </div>
-      <div class="card"><h2>Telemetry v7</h2><div style="font-family:'JetBrains Mono';font-size:9px;color:var(--muted);line-height:1.6">BOTS: <b id="activeCount">160</b> • FPS: <b id="fps">--</b> • LINKS: <b id="linkCount">0</b> • LOCKED: <b id="lockedCount">0</b>/<span id="totalCount">160</span><br/>AVG ERR: <b id="avgErr">--</b> • PHYS: <b id="physCount">0</b> bodies • BALLS: <b id="ballCount">0</b><br/>MODE: <b id="modeLabel">ORBIT</b> • HEIGHT: <b id="heightVal">2.0</b>m • WIND: <b id="windDisplay">0,0</b><br/>DRAW PTS: <b id="drawPtsCount">0</b> • WALL H: <b id="wallHDisp">2.5</b>m</div></div>
+      <div class="card"><h2>Telemetry Classic</h2><div style="font-family:'JetBrains Mono';font-size:9px;color:var(--muted);line-height:1.6">BOTS: <b id="activeCount">140</b> • FPS: <b id="fps">--</b> • LINKS: <b id="linkCount">0</b> • PHYS: <b id="physCount">0</b> bodies • BALLS: <b id="ballCount">0</b><br/>MODE: <b id="modeLabel">ORBIT</b> • HEIGHT: <b id="heightVal">2.0</b>m • WIND: <b id="windDisplay">0,0</b><br/>DRAW PTS: <b id="drawPtsCount">0</b> • WALL H: <b id="wallHDisp">2.5</b>m • ERR: <b id="avgErr">--</b>m</div></div>
     </div>
   </aside>
 
-  <div class="hint"><span><kbd>Right-Drag</kbd> orbit • <kbd>Scroll</kbd> zoom • <kbd>B/R</kbd> color • <kbd>S</kbd> screenshot • <kbd>D</kbd> draw mode • <kbd>P</kbd> physics • <kbd>Space</kbd> drop ball</span></div>
-  <div class="mobile-hint" id="mobileHint">v7 PHYSICS: Build Functional Bridge → Physics ON → Drop Ball → See if it rolls! Draw wall with DRAW mode!</div>
+  <div class="hint"><span><kbd>Right-Drag</kbd> orbit • <kbd>Scroll</kbd> zoom • <kbd>B/R</kbd> color • <kbd>S</kbd> screenshot • <kbd>D</kbd> draw • <kbd>P</kbd> physics • <kbd>Space</kbd> ball</span></div>
+  <div class="mobile-hint" id="mobileHint">CLASSIC FIXED: No locking, bright mesh, bigger LED — bots visible again! Left MOVE, Right LOOK, Pinch ZOOM</div>
 
   <script type="importmap">{"imports":{"three":"https://esm.sh/three@0.160.0","three/addons/":"https://esm.sh/three@0.160.0/examples/jsm/","cannon-es":"https://esm.sh/cannon-es@0.20.0"}}</script>
   <script type="module" src="./main.js"></script>
