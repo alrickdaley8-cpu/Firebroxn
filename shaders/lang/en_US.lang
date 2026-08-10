@@ -1,0 +1,18 @@
+screen.weak=Options
+screen.strong=Firebroxn Settings
+option.SHADOWS=Soft Shadows
+option.SHADOWS.comment=Enable soft PCF shadows | OFF = faster
+option.GODRAYS=Volumetric God Rays
+option.GODRAYS.comment=Screen-space light shafts | Disable for performance
+option.WAVING=Waving Foliage & Water
+option.WAVING.comment=Grass, leaves and water wave in wind
+option.REFLECTIONS=Water Reflections
+option.REFLECTIONS.comment=SSR + sky reflections on water
+option.BLOOM=Bloom Glow
+option.BLOOM.comment=Soft glow on bright highlights | Warm Firebroxn look
+
+profile.weak=Presets
+profile.low=Low (Fast)
+profile.medium=Medium (Balanced) - Default
+profile.high=High (Cinematic)
+profile.ultra=Ultra (Max Quality)
