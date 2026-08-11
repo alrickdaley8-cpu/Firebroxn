@@ -3,229 +3,184 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080d16" />
-    <meta
-      name="description"
-      content="MICO — an experimental microbot swarm command center."
-    />
-    <title>MICO / Microbot Command Center</title>
+    <meta name="theme-color" content="#060a12" />
+    <meta name="description" content="MICO — microbot intelligence, visualized." />
+    <title>MICO / Swarm intelligence</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
-    <div class="grain"></div>
+    <div class="page-aurora aurora-a"></div>
+    <div class="page-aurora aurora-b"></div>
+    <div class="noise"></div>
 
-    <div class="app-shell">
-      <aside class="sidebar" aria-label="Primary navigation">
-        <div class="sidebar-top">
+    <div class="app-frame" id="appFrame">
+      <aside class="sidebar">
+        <div class="sidebar-main">
           <a class="brand" href="#top" aria-label="MICO home">
-            <span class="brand-cube" aria-hidden="true">
-              <span></span><span></span><span></span><span></span>
-            </span>
-            <span class="brand-copy">
-              <strong>MICO</strong>
-              <small>HERO LAB / 06</small>
-            </span>
+            <span class="brand-emblem" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></span>
+            <span class="brand-text"><strong>MICO</strong><small>MICROBOT INTELLIGENCE</small></span>
           </a>
 
-          <div class="rail-rule"></div>
+          <button class="lab-switcher" type="button" id="labSwitcher">
+            <span class="lab-avatar">06</span>
+            <span><small>ACTIVE LAB</small><strong>HERO LAB / SECTOR A</strong></span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m8 10 4 4 4-4" /></svg>
+          </button>
 
-          <nav class="nav-list">
-            <a class="nav-item active" href="#command" data-section="command">
-              <span class="nav-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M4 13.5 12 4l8 9.5v6.25a.75.75 0 0 1-.75.75H4.75a.75.75 0 0 1-.75-.75V13.5Z"/><path d="M8.5 20v-4.75h7V20M9 9.75h.01M12 9.75h.01M15 9.75h.01"/></svg>
-              </span>
-              <span>Command</span>
-              <span class="nav-pip"></span>
+          <div class="nav-label">CONTROL SURFACE <span></span></div>
+          <nav class="nav-list" aria-label="Main navigation">
+            <a class="nav-link active" href="#top" data-nav="overview">
+              <span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5 12 4l8 8.5V20H4v-7.5Z"/><path d="M9 20v-5h6v5M8 9h.01M12 9h.01M16 9h.01"/></svg></span><span>Overview</span><em></em>
             </a>
-            <a class="nav-item" href="#swarm" data-section="swarm">
-              <span class="nav-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.3"/><circle cx="5.5" cy="7" r="1.8"/><circle cx="18.5" cy="7" r="1.8"/><circle cx="5.5" cy="17" r="1.8"/><circle cx="18.5" cy="17" r="1.8"/><path d="m7 7.9 3.1 2.7M17 7.9l-3.1 2.7M7 16.1l3.1-2.7M17 16.1l-3.1-2.7"/></svg>
-              </span>
-              <span>Swarm lab</span>
-              <span class="nav-count">128</span>
-            </a>
-            <a class="nav-item" href="#blueprints" data-section="blueprints">
-              <span class="nav-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M5 4.75A1.75 1.75 0 0 1 6.75 3H19v16.25A1.75 1.75 0 0 0 17.25 17H5V4.75Z"/><path d="M5 17v2.25A1.75 1.75 0 0 0 6.75 21H19M9 7h6M9 10h6M9 13h3"/></svg>
-              </span>
-              <span>Blueprints</span>
-            </a>
-            <a class="nav-item" href="#telemetry" data-section="telemetry">
-              <span class="nav-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M4 18.5V14M9.33 18.5V10M14.67 18.5V6M20 18.5V3.5"/><path d="M3 21h18"/></svg>
-              </span>
-              <span>Telemetry</span>
-            </a>
+            <a class="nav-link" href="#swarm" data-nav="swarm"><span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="2.5"/><circle cx="5.5" cy="7" r="1.8"/><circle cx="18.5" cy="7" r="1.8"/><circle cx="5.5" cy="17" r="1.8"/><circle cx="18.5" cy="17" r="1.8"/><path d="m7 7.8 3.2 2.7M17 7.8l-3.2 2.7M7 16.2l3.2-2.7M17 16.2l-3.2-2.7"/></svg></span><span>Swarm lab</span><b>128</b></a>
+            <a class="nav-link" href="#missions" data-nav="missions"><span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><path d="M5 5.5A1.5 1.5 0 0 1 6.5 4H19v16H6.5A1.5 1.5 0 0 0 5 21.5V5.5Z"/><path d="M5 17.5h14M9 8h6M9 11.5h6M9 15h3"/></svg></span><span>Mission logs</span><b>03</b></a>
+            <a class="nav-link" href="#blueprints" data-nav="blueprints"><span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z"/><path d="m4.5 7.8 7.5 4.3 7.5-4.3M12 12.1V21"/></svg></span><span>Blueprints</span><b>12</b></a>
+            <a class="nav-link" href="#telemetry" data-nav="telemetry"><span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18.5V14M9.33 18.5V10M14.67 18.5V6M20 18.5V3.5M3 21h18"/></svg></span><span>Telemetry</span></a>
+          </nav>
+
+          <div class="nav-label secondary-label">TOOLS <span></span></div>
+          <nav class="nav-list compact-nav" aria-label="Tools">
+            <a class="nav-link" href="#signals" data-nav="signals"><span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><path d="M4 14.5c2.7-1.1 4.5-3.8 4.5-6.8M8.5 17.5c3.8-1.5 6.2-5.1 6.2-9.2M14.7 20.5c5-2 8.1-6.7 8.1-12.1"/><path d="M4 4.5h.01"/></svg></span><span>Signal map</span></a>
+            <a class="nav-link" href="#settings" data-nav="settings"><span class="nav-symbol"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.9 1.9-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56v.08h-2.7V20a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.9-1.9.06-.06A1.7 1.7 0 0 0 7.74 15 1.7 1.7 0 0 0 6.18 14h-.08v-2.7h.08A1.7 1.7 0 0 0 7.74 10a1.7 1.7 0 0 0-.34-1.88l-.06-.06 1.9-1.9.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 12.22 5v-.08h2.7V5a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.9 1.9-.06.06A1.7 1.7 0 0 0 19.4 10c.27.65.91 1.04 1.61 1.04h.08v2.7h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span><span>Preferences</span></a>
           </nav>
         </div>
 
         <div class="sidebar-bottom">
-          <div class="core-card">
-            <div class="core-card-top">
-              <span class="mini-label">CORE CHARGE</span>
-              <span class="core-percent">87%</span>
-            </div>
-            <div class="core-bar"><span></span></div>
-            <div class="core-meta"><span>STABLE</span><span>02:48:19</span></div>
+          <div class="sync-card">
+            <div class="sync-header"><span>CORE CAPACITY</span><strong>87%</strong></div>
+            <div class="sync-track"><i></i></div>
+            <div class="sync-footer"><span><i></i> STABLE</span><em>02H 48M</em></div>
           </div>
-          <button class="account-button" type="button" aria-label="Open account menu">
-            <span class="avatar">A</span>
-            <span class="account-copy"><strong>Alex Mercer</strong><small>Lead operator</small></span>
+          <button class="operator" type="button" id="operatorButton">
+            <span class="operator-avatar">AM</span>
+            <span class="operator-copy"><strong>Alex Mercer</strong><small>Lead operator</small></span>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m8 10 4 4 4-4"/></svg>
           </button>
         </div>
       </aside>
 
-      <main class="main-content" id="top">
+      <main class="main" id="top">
         <header class="topbar">
-          <div class="breadcrumb"><span>COMMAND CENTER</span><i></i><strong>OVERVIEW</strong></div>
-          <div class="topbar-tools">
-            <div class="network-status"><span class="status-light"></span><span>NETWORK NOMINAL</span></div>
-            <div class="top-divider"></div>
-            <div class="time-readout"><span class="time-icon">◷</span><span id="clock">06:00:00</span><em>AM</em></div>
-            <button class="icon-button notification-button" type="button" aria-label="Notifications">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 9.75a6 6 0 0 0-12 0c0 7-2.75 7-2.75 8.5h17.5C20.75 16.75 18 16.75 18 9.75ZM10 21h4"/></svg>
-              <span></span>
-            </button>
-            <button class="operator-badge" type="button" aria-label="Operator profile">AM</button>
+          <button class="mobile-menu" type="button" id="mobileMenu" aria-label="Open navigation"><span></span><span></span></button>
+          <div class="breadcrumb"><span>HERO LAB / SECTOR A</span><i></i><strong>COMMAND OVERVIEW</strong></div>
+          <div class="top-actions">
+            <div class="network-pill"><span class="pulse-dot"></span><span>ALL SYSTEMS NOMINAL</span></div>
+            <div class="top-separator"></div>
+            <div class="clock"><span>◷</span><strong id="clock">06:00:00</strong><em>AM</em></div>
+            <button class="shortcut-button" type="button" id="commandButton"><span>⌘</span><kbd>K</kbd></button>
+            <button class="bell-button" type="button" id="bellButton" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none"><path d="M18 9.75a6 6 0 0 0-12 0c0 7-2.75 7-2.75 8.5h17.5C20.75 16.75 18 16.75 18 9.75ZM10 21h4"/></svg><i></i></button>
+            <button class="top-avatar" type="button" id="topAvatar" aria-label="Open profile">AM</button>
           </div>
         </header>
 
-        <div class="page-content" id="command">
-          <section class="hero-intro" aria-labelledby="hero-title">
-            <div class="eyebrow"><span class="eyebrow-mark"></span> MICO SYSTEM / MICROBOT SWARM OS <span class="eyebrow-line"></span> <span class="eyebrow-code">V.2.04</span></div>
-            <h1 id="hero-title">Build the<br /><span>impossible.</span></h1>
-            <p class="hero-description">One mind. One hundred twenty-eight microbots.<br />A new kind of hero is ready to move.</p>
-            <div class="hero-actions">
-              <button class="primary-button" id="deployButton" type="button">
-                <span class="button-pulse"></span><span id="deployLabel">Deploy swarm</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
-              </button>
-              <button class="secondary-button" id="scanButton" type="button"><span class="scan-icon">⌁</span> Run diagnostics</button>
+        <div class="content">
+          <section class="welcome-row">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-dot"></span> MICO OPERATING SYSTEM <i></i><span>WED / 06:00 AM</span></div>
+              <h1>Move as <span>one.</span></h1>
+              <p class="welcome-copy">Your microbot swarm is awake, aligned, and ready to turn a single idea into a living machine.</p>
             </div>
-            <div class="hero-footnote"><span class="footnote-dot"></span> MICO IS LISTENING <span class="footnote-separator"></span> LAST SYNC 05:59:48 AM</div>
+            <div class="welcome-tools"><span class="save-status"><i></i> CHANGES SAVED</span><button class="round-action" type="button" id="helpButton" aria-label="Help">?</button></div>
           </section>
 
-          <section class="swarm-stage" id="swarm" aria-label="Live microbot swarm visualization">
-            <div class="stage-glow"></div>
-            <div class="stage-grid"></div>
-            <div class="stage-topline">
-              <div class="stage-title"><span class="live-dot"></span><strong>LIVE SWARM</strong><span>/</span><span>FORMATION 01</span></div>
-              <button class="expand-button" id="expandButton" type="button"><span>EXPAND VIEW</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 4H4v4M4 4l6 6M16 20h4v-4M20 20l-6-6"/></svg></button>
-            </div>
-
-            <div class="stage-canvas" id="stageCanvas">
-              <div class="scan-line"></div>
-              <div class="axis axis-x"></div><div class="axis axis-y"></div>
-              <span class="corner-marker marker-tl"></span><span class="corner-marker marker-tr"></span><span class="corner-marker marker-bl"></span><span class="corner-marker marker-br"></span>
-              <div class="coordinate coordinate-top">X 04.820 / Y 11.204</div>
-              <div class="coordinate coordinate-bottom">ALT <strong>+024</strong> <i></i> LOCKED</div>
-              <svg class="swarm-svg" viewBox="0 0 800 510" role="img" aria-label="A glowing microbot swarm in a hexagonal formation">
-                <defs>
-                  <radialGradient id="coreGradient" cx="50%" cy="42%" r="65%">
-                    <stop offset="0" stop-color="#f8ffff" />
-                    <stop offset="0.13" stop-color="#b9f7ff" />
-                    <stop offset="0.34" stop-color="#35d9e7" />
-                    <stop offset="0.7" stop-color="#11687d" />
-                    <stop offset="1" stop-color="#092631" />
-                  </radialGradient>
-                  <linearGradient id="coreEdge" x1="0" x2="1" y1="0" y2="1">
-                    <stop offset="0" stop-color="#d9ffff" />
-                    <stop offset="0.32" stop-color="#55e6ed" />
-                    <stop offset="1" stop-color="#0f6070" />
-                  </linearGradient>
-                  <linearGradient id="armGradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0" stop-color="#a8fbff" />
-                    <stop offset="0.35" stop-color="#35b8c7" />
-                    <stop offset="1" stop-color="#0b4351" />
-                  </linearGradient>
-                  <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
-                    <feGaussianBlur stdDeviation="12" result="blur" />
-                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                  </filter>
-                  <filter id="smallGlow" x="-100%" y="-100%" width="300%" height="300%">
-                    <feGaussianBlur stdDeviation="3" result="blur" />
-                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                  </filter>
-                  <pattern id="microGrid" width="24" height="24" patternUnits="userSpaceOnUse">
-                    <path d="M24 0H0V24" fill="none" stroke="#82d5dc" stroke-opacity=".065" stroke-width="1" />
-                  </pattern>
-                </defs>
-                <ellipse cx="400" cy="276" rx="244" ry="176" fill="#36d3df" fill-opacity=".045" filter="url(#softGlow)" />
-                <ellipse class="orbit orbit-outer" cx="400" cy="265" rx="280" ry="188" />
-                <ellipse class="orbit orbit-mid" cx="400" cy="265" rx="208" ry="140" />
-                <ellipse class="orbit orbit-inner" cx="400" cy="265" rx="130" ry="88" />
-                <path class="orbit-path orbit-path-a" d="M128 272c0-100 123-181 274-181s273 81 273 181-122 181-273 181S128 372 128 272Z" />
-                <path class="orbit-path orbit-path-b" d="M223 417c-51-75-8-182 97-239S582 124 631 196c51 75 8 182-97 239s-262 56-311-18Z" />
-                <path class="beam beam-one" d="M400 62V465M70 265h660" />
-                <rect x="22" y="20" width="756" height="470" fill="url(#microGrid)" opacity=".55" />
-                <g id="swarmNodes"></g>
-                <g class="bot-frame" transform="translate(400 265)">
-                  <circle class="core-halo" r="98" />
-                  <path class="core-ring ring-back" d="M0-89a89 89 0 1 1 0 178 89 89 0 1 1 0-178Z" />
-                  <path class="core-ring ring-front" d="M0-89a89 89 0 1 1 0 178 89 89 0 1 1 0-178Z" />
-                  <path class="core-shell" d="M0-76 58-42 58 42 0 76-58 42-58-42Z" fill="url(#coreGradient)" />
-                  <path class="core-shell-inner" d="M0-58 43-33 43 33 0 58-43 33-43-33Z" fill="#0a2430" fill-opacity=".54" />
-                  <path class="core-seam" d="M0-76v18M58-42 43-33M58 42 43 33M0 76V58M-58 42l15-9M-58-42l15 9" />
-                  <path class="core-face" d="M-26-7h13M13-7h13M-21 18c14 11 28 11 42 0" />
-                  <circle class="core-eye" cx="-19" cy="-7" r="3.2" /><circle class="core-eye" cx="19" cy="-7" r="3.2" />
-                  <path class="core-flare" d="M0-111v-18M0 111v18M111 0h18M-111 0h-18" />
-                  <path class="core-flare diagonal" d="m78-78 13-13M-78 78l-13 13M-78-78l-13-13M78 78l13 13" />
-                  <text class="core-text" x="0" y="-133" text-anchor="middle">MICO CORE</text>
-                </g>
-                <g class="stage-annotation annotation-left"><path d="M110 372h82l32-30" /><circle cx="110" cy="372" r="3" /><text x="110" y="395">UNIT DENSITY</text><text x="110" y="414" class="annotation-value">98.3%</text></g>
-                <g class="stage-annotation annotation-right"><path d="M590 130h-58l-32 30" /><circle cx="590" cy="130" r="3" /><text x="590" y="111">FORMATION LOCK</text><text x="590" y="92" class="annotation-value">SYNCHRONIZED</text></g>
-              </svg>
-              <div class="stage-readout readout-left"><span>SWARM COUNT</span><strong id="swarmCount">128</strong><small>UNITS ONLINE</small></div>
-              <div class="stage-readout readout-right"><span>VECTOR</span><strong>0.04<span>°</span></strong><small>DRIFT / NOMINAL</small></div>
-              <div class="stage-chip"><span class="chip-dot"></span><span id="stageState">COHERENT STATE</span></div>
-            </div>
-
-            <div class="stage-footer">
-              <div class="formation-switcher">
-                <span class="footer-label">FORMATION</span>
-                <button class="formation-option active" data-formation="orbital" type="button">01 <span>ORBITAL</span></button>
-                <button class="formation-option" data-formation="shield" type="button">02 <span>SHIELD</span></button>
-                <button class="formation-option" data-formation="bridge" type="button">03 <span>BRIDGE</span></button>
+          <section class="command-grid" id="swarm">
+            <article class="hero-card">
+              <div class="hero-card-line"></div>
+              <div class="hero-copy">
+                <div class="hero-kicker"><span class="live-mark"><i></i></span> LIVE SWARM / FORMATION <strong id="heroFormation">01</strong></div>
+                <h2>Intelligence<br /><span>in motion.</span></h2>
+                <p>128 autonomous units. One shared instinct. Shape the swarm, then let MICO do the impossible math.</p>
+                <div class="hero-buttons">
+                  <button class="primary-button" type="button" id="deployButton"><span class="button-dot"></span><span id="deployLabel">Deploy swarm</span><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+                  <button class="ghost-button" type="button" id="diagnosticButton"><span>⌁</span> Diagnostics</button>
+                </div>
+                <div class="hero-status-row"><span><i></i> MICO IS LISTENING</span><span>SYNC <strong>05:59:48</strong></span></div>
               </div>
-              <div class="stage-footer-right"><span class="footer-label">AUTO PILOT</span><button class="toggle active" id="autopilotToggle" type="button" aria-pressed="true"><span></span></button><span class="auto-label" id="autopilotLabel">ON</span></div>
-            </div>
+
+              <div class="visual-wrap">
+                <canvas id="swarmCanvas" aria-label="Animated microbot swarm visualization"></canvas>
+                <div class="visual-grid"></div>
+                <div class="visual-scan"></div>
+                <div class="visual-corner corner-one"></div><div class="visual-corner corner-two"></div><div class="visual-corner corner-three"></div><div class="visual-corner corner-four"></div>
+                <div class="visual-tag tag-top"><span></span><strong id="visualMode">ORBITAL</strong><em>/ 01</em></div>
+                <div class="visual-tag tag-left"><small>UNIT DENSITY</small><strong id="densityValue">98.6%</strong><i></i></div>
+                <div class="visual-tag tag-right"><small>VECTOR DRIFT</small><strong>0.04°</strong><i></i></div>
+                <div class="core-label" id="coreLabel"><span></span>MICO CORE / ONLINE</div>
+                <div class="canvas-coordinates">X 04.820 <i></i> Y 11.204 <i></i> ALT +024</div>
+              </div>
+
+              <div class="hero-card-footer"><div><span>SWARM COUNT</span><strong id="swarmCount">128 <small>/ 128</small></strong></div><div><span>RESPONSE TIME</span><strong>14 <small>MS</small></strong></div><div><span>UPTIME</span><strong>99.98 <small>%</small></strong></div><button class="expand-button" type="button" id="expandButton"><span>EXPAND VIEW</span><svg viewBox="0 0 24 24" fill="none"><path d="M8 4H4v4M4 4l6 6M16 20h4v-4M20 20l-6-6"/></svg></button></div>
+            </article>
+
+            <aside class="deck-card" aria-label="MICO command deck">
+              <div class="deck-header"><div><span class="section-index">01 / COMMAND DECK</span><h3>Direct the swarm</h3></div><button class="deck-menu" type="button" id="deckMenu" aria-label="More commands">•••</button></div>
+              <div class="mico-presence">
+                <div class="presence-orb"><div class="presence-ring ring-one"></div><div class="presence-ring ring-two"></div><div class="presence-ring ring-three"></div><div class="presence-core"><span></span><span></span><i></i></div></div>
+                <div class="presence-copy"><span class="presence-live"><i></i> ONLINE / AWAKE</span><strong>MICO</strong><small>Microbot intelligence<br />& coordination operator</small></div>
+              </div>
+              <div class="directive"><span>ACTIVE DIRECTIVE</span><strong id="directiveText">Protect the core</strong><p id="directiveSubtext">Keep a defensive ring around command.</p></div>
+              <div class="mode-label"><span>QUICK BEHAVIORS</span><em>SELECT ONE</em></div>
+              <div class="mode-grid">
+                <button class="mode-button active" data-mode="guardian" type="button"><span class="mode-icon shield-icon">◇</span><strong>Guardian</strong><small>Protect & hold</small></button>
+                <button class="mode-button" data-mode="builder" type="button"><span class="mode-icon builder-icon">⌬</span><strong>Builder</strong><small>Bridge & connect</small></button>
+                <button class="mode-button" data-mode="search" type="button"><span class="mode-icon search-icon">◌</span><strong>Search</strong><small>Scan the field</small></button>
+                <button class="mode-button" data-mode="recall" type="button"><span class="mode-icon recall-icon">↶</span><strong>Recall</strong><small>Return to core</small></button>
+              </div>
+              <div class="deck-control"><div class="control-title"><span>SWARM COHERENCE</span><strong><span id="coherenceValue">98</span>%</strong></div><input id="coherenceSlider" type="range" min="70" max="100" value="98" /><div class="range-labels"><span>LOOSE</span><span>LOCKED</span></div></div>
+              <form class="command-input" id="commandForm"><span>›</span><input id="commandInput" aria-label="Command MICO" placeholder="Tell MICO what to do..." autocomplete="off" /><button type="submit" aria-label="Send command">↗</button></form>
+              <div class="deck-footer"><span><i></i> AUTOPILOT <strong id="autopilotText">ON</strong></span><button class="toggle active" type="button" id="autopilotToggle" aria-pressed="true"><i></i></button></div>
+            </aside>
           </section>
 
-          <section class="metrics-grid" id="telemetry" aria-label="Swarm telemetry">
-            <article class="metric-card health-card">
-              <div class="card-heading"><div><span class="section-kicker">01 / TELEMETRY</span><h2>Swarm health</h2></div><button class="more-button" type="button" aria-label="More health options">•••</button></div>
-              <div class="health-body">
-                <div class="health-score"><div class="score-ring"><svg viewBox="0 0 112 112" aria-hidden="true"><circle class="score-track" cx="56" cy="56" r="48"/><circle class="score-progress" cx="56" cy="56" r="48"/></svg><span><strong id="healthScore">98.3</strong><small>%</small></span></div><div><strong class="health-status"><span></span> EXCELLENT</strong><p>All units are<br />responding.</p></div></div>
-                <div class="metric-list"><div><span>ACTIVE UNITS</span><strong id="activeUnits">128 <em>/ 128</em></strong></div><div><span>AVG. RESPONSE</span><strong>14 <em>ms</em></strong></div><div><span>UPTIME</span><strong>99.98 <em>%</em></strong></div></div>
-              </div>
+          <section class="signal-strip" id="telemetry" aria-label="Live telemetry">
+            <div class="signal-heading"><span>LIVE TELEMETRY</span><i></i><small>STREAMING NOW</small></div>
+            <div class="signal-stat"><span class="signal-icon cyan">⌁</span><div><small>SWARM HEALTH</small><strong id="healthValue">98.6<span>%</span></strong></div><em>+0.4%</em></div>
+            <div class="signal-stat"><span class="signal-icon violet">◈</span><div><small>ENERGY RESERVE</small><strong id="energyValue">87<span>%</span></strong></div><em>02H 48M</em></div>
+            <div class="signal-stat"><span class="signal-icon mint">⟐</span><div><small>ACTIVE UNITS</small><strong>128<span>/128</span></strong></div><em>100%</em></div>
+            <div class="signal-stat"><span class="signal-icon orange">↗</span><div><small>MISSIONS TODAY</small><strong id="missionCount">03</strong></div><em>+2 QUEUED</em></div>
+          </section>
+
+          <section class="lower-grid" id="blueprints">
+            <article class="panel topology-panel">
+              <div class="panel-header"><div><span class="section-index">02 / TOPOLOGY</span><h3>How the swarm thinks</h3></div><button class="panel-link" type="button" id="topologyButton">OPEN MAP <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></div>
+              <div class="topology-body"><div class="topology-map" id="topologyMap"><div class="map-grid"></div><svg viewBox="0 0 520 205" preserveAspectRatio="none" aria-hidden="true"><path d="M10 168C66 144 90 55 160 92s81 84 126 45 61-85 113-53 62 53 111-25"/><path d="M10 168C85 190 116 61 185 115s79 50 127 6 60-35 96-3 82 34 112-59"/><path d="M10 168C81 108 120 150 176 137s84-93 141-55 52 62 101 55 68-55 101-4"/></svg><div class="map-core"><i></i><span>MICO</span></div><div class="map-node n1"></div><div class="map-node n2"></div><div class="map-node n3"></div><div class="map-node n4"></div><div class="map-node n5"></div><div class="map-node n6"></div><div class="map-tooltip">NODE 042 <strong>SYNCED</strong></div><span class="map-axis x">X / 04.8</span><span class="map-axis y">Y / 11.2</span></div><div class="topology-legend"><div><i class="legend-dot cyan"></i><span>CORE LINK</span><strong>12</strong></div><div><i class="legend-dot violet"></i><span>ACTIVE PATHS</span><strong>48</strong></div><div><i class="legend-dot mint"></i><span>FREE UNITS</span><strong>68</strong></div></div></div>
             </article>
 
-            <article class="metric-card energy-card" id="blueprints">
-              <div class="card-heading"><div><span class="section-kicker">02 / PERFORMANCE</span><h2>Energy reserve</h2></div><span class="live-tag">LIVE</span></div>
-              <div class="energy-main"><strong id="energyValue">87</strong><span>%</span><div class="energy-copy"><span>ESTIMATED RUNTIME</span><strong id="runtimeValue">02H 48M</strong></div></div>
-              <div class="energy-graph" aria-label="Energy reserve graph"><div class="graph-fill"></div><svg viewBox="0 0 450 100" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="lineGradient" x1="0" x2="1"><stop offset="0" stop-color="#36d9df"/><stop offset="1" stop-color="#9cfcda"/></linearGradient><linearGradient id="fillGradient" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#32dce5" stop-opacity=".22"/><stop offset="1" stop-color="#32dce5" stop-opacity="0"/></linearGradient></defs><path class="graph-area" d="M0 80 C25 72 30 78 52 68 S77 78 101 57 S128 63 149 54 S175 58 197 42 S222 50 244 36 S271 45 295 29 S318 44 338 26 S366 37 389 20 S422 25 450 12V100H0Z"/><path class="graph-line" d="M0 80 C25 72 30 78 52 68 S77 78 101 57 S128 63 149 54 S175 58 197 42 S222 50 244 36 S271 45 295 29 S318 44 338 26 S366 37 389 20 S422 25 450 12"/><circle cx="450" cy="12" r="4" class="graph-point"/></svg><div class="graph-axis"><span>00:00</span><span>01:24</span><span>02:48</span></div></div>
+            <article class="panel energy-panel">
+              <div class="panel-header"><div><span class="section-index">03 / POWER</span><h3>Energy reserve</h3></div><span class="live-badge"><i></i> LIVE</span></div>
+              <div class="power-head"><strong>87</strong><span>%</span><div><small>EST. RUNTIME</small><b>02H 48M</b></div></div>
+              <div class="power-chart"><div class="chart-y"><span>100</span><span>50</span><span>0</span></div><svg viewBox="0 0 420 120" preserveAspectRatio="none" aria-label="Energy reserve over time"><defs><linearGradient id="powerLine" x1="0" x2="1"><stop offset="0" stop-color="#54e3ea"/><stop offset="1" stop-color="#a0f7dc"/></linearGradient><linearGradient id="powerFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#54e3ea" stop-opacity=".23"/><stop offset="1" stop-color="#54e3ea" stop-opacity="0"/></linearGradient></defs><path class="power-area" d="M0 94C28 89 32 90 57 78S92 82 118 66s37 5 60-7 36 6 61-13 37 4 62-15 34 7 59-14 33 6 60-5v108H0Z"/><path class="power-line" d="M0 94C28 89 32 90 57 78S92 82 118 66s37 5 60-7 36 6 61-13 37 4 62-15 34 7 59-14 33 6 60-5"/><circle class="power-point" cx="420" cy="7" r="4"/></svg><div class="chart-x"><span>00:00</span><span>01:24</span><span>02:48</span></div></div>
+              <div class="power-footer"><span><i></i> CHARGE CYCLE NOMINAL</span><strong>+12% / HR</strong></div>
             </article>
 
-            <article class="metric-card activity-card">
-              <div class="card-heading"><div><span class="section-kicker">03 / EVENT STREAM</span><h2>Activity log</h2></div><button class="view-all" id="viewAllButton" type="button">VIEW ALL <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></div>
-              <div class="activity-list" id="activityList">
-                <div class="activity-item"><span class="activity-icon cyan">↗</span><div><strong>Formation recalibrated</strong><span>All units locked to orbital path</span></div><time>05:59</time></div>
-                <div class="activity-item"><span class="activity-icon violet">⌁</span><div><strong>Diagnostic sweep complete</strong><span>Zero faults detected in core</span></div><time>05:42</time></div>
-                <div class="activity-item"><span class="activity-icon mint">✦</span><div><strong>New blueprint saved</strong><span>“Skybridge / v.04” is ready</span></div><time>05:16</time></div>
-              </div>
+            <article class="panel activity-panel" id="missions">
+              <div class="panel-header"><div><span class="section-index">04 / EVENT STREAM</span><h3>Activity log</h3></div><button class="panel-link" type="button" id="archiveButton">VIEW ARCHIVE <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></div>
+              <div class="activity-list" id="activityList"><button class="activity-row" type="button"><span class="activity-icon cyan">↗</span><span><strong>Formation recalibrated</strong><small>All units locked to orbital path</small></span><time>05:59</time></button><button class="activity-row" type="button"><span class="activity-icon violet">⌁</span><span><strong>Diagnostic sweep complete</strong><small>Zero faults detected in core</small></span><time>05:42</time></button><button class="activity-row" type="button"><span class="activity-icon mint">✦</span><span><strong>Blueprint saved</strong><small>“Skybridge / v.04” ready to build</small></span><time>05:16</time></button></div>
             </article>
           </section>
 
-          <footer class="page-footer"><span>© 2042 MICO RESEARCH SYSTEMS</span><span><i></i> SECURE SESSION <b>•</b> BUILD 2.04.18</span></footer>
+          <section class="mission-band" id="signals">
+            <div class="mission-band-title"><span class="section-index">05 / MISSION QUEUE</span><h3>Next moves</h3><p>Small signals. Big outcomes.</p></div>
+            <button class="mission-row selected" type="button" data-mission="Bridge the gap"><span class="mission-number">01</span><span class="mission-color aqua"></span><span class="mission-info"><strong>Bridge the gap</strong><small>Rapid transit / North sector</small></span><span class="mission-time">NOW</span><span class="mission-arrow">↗</span></button>
+            <button class="mission-row" type="button" data-mission="Protect the core"><span class="mission-number">02</span><span class="mission-color violet"></span><span class="mission-info"><strong>Protect the core</strong><small>Defensive lattice / Lab interior</small></span><span class="mission-time">+12 MIN</span><span class="mission-arrow">↗</span></button>
+            <button class="mission-row" type="button" data-mission="Map the unknown"><span class="mission-number">03</span><span class="mission-color orange"></span><span class="mission-info"><strong>Map the unknown</strong><small>Signal search / West quadrant</small></span><span class="mission-time">+38 MIN</span><span class="mission-arrow">↗</span></button>
+          </section>
+
+          <footer class="footer"><span>© 2042 MICO RESEARCH SYSTEMS</span><span><i></i> SECURE SESSION <b>•</b> BUILD 3.00.01</span></footer>
         </div>
       </main>
     </div>
 
-    <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✓</span><span id="toastText">Swarm command received</span></div>
-    <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true"><div class="command-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button><span class="section-kicker">MICO / DIAGNOSTICS</span><h2 id="modalTitle">System scan complete</h2><p id="modalCopy">Every microbot is reporting a clean signal. The swarm is ready for deployment.</p><div class="diagnostic-lines"><div><span>CORE LINK</span><strong>STABLE</strong></div><div><span>SWARM MESH</span><strong>128 / 128</strong></div><div><span>LATENCY</span><strong>14 MS</strong></div></div><button class="primary-button modal-action" id="modalAction" type="button">Return to command <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></div></div>
+    <div class="palette-backdrop" id="paletteBackdrop" aria-hidden="true">
+      <section class="command-palette" role="dialog" aria-modal="true" aria-labelledby="paletteTitle">
+        <div class="palette-search"><span>⌘</span><input id="paletteInput" placeholder="Search commands, missions, or modules..." autocomplete="off" /><kbd>ESC</kbd></div>
+        <div class="palette-body"><div class="palette-heading"><span id="paletteTitle">QUICK COMMANDS</span><small>ENTER TO EXECUTE</small></div><button class="palette-item" type="button" data-command="deploy"><span class="palette-item-icon cyan">↗</span><span><strong>Deploy swarm</strong><small>Link every microbot to the active directive</small></span><kbd>⌘D</kbd></button><button class="palette-item" type="button" data-command="diagnostics"><span class="palette-item-icon violet">⌁</span><span><strong>Run diagnostics</strong><small>Scan the core and mesh for anomalies</small></span><kbd>⌘R</kbd></button><button class="palette-item" type="button" data-command="expand"><span class="palette-item-icon mint">⛶</span><span><strong>Expand swarm view</strong><small>Make the live canvas your command surface</small><kbd>⌘E</kbd></button><button class="palette-item" type="button" data-command="recall"><span class="palette-item-icon orange">↶</span><span><strong>Recall all units</strong><small>Return the swarm to a safe standby mesh</small><kbd>⌘⇧R</kbd></button></div><div class="palette-footer"><span><i></i> MICO READY</span><span>TIP: TRY “BUILD A BRIDGE”</span></div>
+      </section>
+    </div>
 
+    <div class="modal-backdrop" id="diagnosticModal" aria-hidden="true"><section class="diagnostic-modal" role="dialog" aria-modal="true" aria-labelledby="diagnosticTitle"><button class="close-modal" type="button" id="closeDiagnostic" aria-label="Close">×</button><div class="modal-orb"><i></i><span></span></div><span class="section-index">MICO / FULL MESH SCAN</span><h2 id="diagnosticTitle">Everything is connected.</h2><p id="diagnosticCopy">Every unit is reporting a clean signal. The swarm is ready for its next impossible move.</p><div class="diagnostic-grid"><div><span>CORE LINK</span><strong>STABLE</strong></div><div><span>SWARM MESH</span><strong>128 / 128</strong></div><div><span>LATENCY</span><strong>14 MS</strong></div></div><button class="primary-button" id="closeDiagnosticAction" type="button">Back to command deck <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button></section></div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-check">✓</span><span id="toastText">Command acknowledged</span></div>
     <script src="app.js"></script>
   </body>
 </html>
